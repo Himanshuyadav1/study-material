@@ -1,0 +1,21 @@
+Guide to Expert CSS,  How to master CSS, basics to advanced, what to learn.  tools, methodology, frameworks 
+
+CSS Selectors - id ,class, children , direct children, first child, last child 
+Box model - box sizing 
+Viewport Units - px,vh,vw,em 
+Layouts - 
+   1)display property - static, block,inline-block 
+   2)Position - static, relative, absolute, sticky 
+   3)z-index 
+
+Specificity - rules 
+Pseudo elements 
+responsive design - media queries 
+css variables 
+FlexBox
+ Advanced - 
+    Pre-processors - sass, less 
+    Block Element Modifier 
+    Functional Css 
+    Shadow DOM 
+    CSS Animation

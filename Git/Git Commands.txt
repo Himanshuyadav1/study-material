@@ -1,0 +1,146 @@
+Important Terms:-
+------------------------------
+1. Repository
+ a. Local Repository
+ b. Remote Repository(Upstream)
+
+2. Untracked and Tracked files
+
+3. Unstaged and Staged Area
+
+4. Snapshot and Commit
+
+5. HEAD
+
+6. Tag
+
+7. Rollback
+
+8. Confilct Merge
+------------------------------------
+
+Commands:--
+--------------------
+
+Basic Steps:-
+--------------------
+1. Initialize the repository:- git init
+
+2. Add files to Staging Area or Stage Changes:- git add .
+
+3. Review changes:- git status
+
+4. Commit the changes:- git commit 
+
+5. Check commit history:- git log
+
+6. Rollback to previous commit:- git reset --hard
+
+7. Push changes:- git push
+
+
+Other commands:--
+----------------------
+
+1. a)Unstage changes:-- git reset <fileName> || git reset HEAD <fileName>
+   b)Unstage changes and it makes file untracked:-- git rm --cached <fileName>
+   c)Unstage specific changes:-- git reset HEAD -p
+
+2. a)To show changes but not staged:-- git diff
+   b)To show changes for specific file but not staged:-- git diff <fileName>
+
+3. To show staged but not yet to commited:-- git diff --staged
+
+4. To show commit history with file changes:-- git log -p
+
+5. To show list for stored local information related to commit and branch:-- git reflog
+
+6. To check specific commit:-- git show <commit hash value>
+
+7. To remove or delete file:-- git rm <fileName>
+
+8. To rename(filename with extension) or move(provide file location) file:- git mv <oldFileName> <newFileName>
+
+9. a)Rollback last commit:-- git revert HEAD
+   b)Rollback specific commit:-- git revert <commit hash value>
+
+10. a)To tag last commit:--- git tag <tagname>
+    b)To tag specific commit:-- git tag <tagname> <commit hash value>
+    c)To tag commit with annotation:-- git tag -a <tagname> -m "your message"
+    d)To delete tag:-- git tag -d <tagname>
+
+11. To go to the tag and it will rollback project:-- git checkout <tagname>
+
+Branch related commands:
+----------------------------------
+
+1. To show branches:-- git branch
+
+2. To create new branch:-- git branch <branchName>
+
+3. To switch on specfic branch:-- git checkout <branchName> || git switch <branchName>
+
+4. To create and switch branch together:-- git checkout -b <branchName> || git switch -c <branchName>
+
+5. a)To delete branch before merge:-- git branch -D <branchName>
+   b)To delete branch after merge:-- git branch -d <branchName>
+
+6. To merge branch:-- git merge <branchName>
+
+7. To transfer all the work from a branch to current branch:-- git rebase <branchName of that branch whose work we want in current branch>
+
+8. Change from one branch to another branch without commiting changes in current branch So in that case we have to stash changes:--
+   a) To stash:-- git stash
+   b) To retrieve stash save, first go to that branch in which we stash the changes then:-- git stash pop 
+   c) To list stash:-- git stash list
+   d) To discard the changes from top of stash stack:-- git stash drop 
+
+
+Remote Repository:
+------------------------------------
+
+1. To add remote repository to local repo:-- git remote add (origin)<repoName> <repository https url>
+
+2. To display all remote repository for your local repository:-- git remote -v
+
+3. To remove associated remote repo to local repo:-- git remote remove <repoName>
+
+4. To show specific remote repo details:-- git remote show <repoName>
+
+5. To set upstream:- git remote -u (origin)<repoName> (master)<branchName>
+
+6. To push branch from local to remote:-- git push (origin)<repoName> (feature1)<branchName>
+
+7. a)To push tag from local to remote:-- git push (origin)<repoName> <tagName>
+   b)To push all tags from local to remote:-- git push (origin)<repoName> --tags
+
+8. To fetch changes from remote repo to local repo:-- git pull
+
+9. To clone remote repo to local:-- git clone <repo https url>
+
+
+Configuring User information:--
+------------------------------------------
+
+1. Display list of information about git configuration:-- git config -l
+
+2. Setting user name:-- git config --global user.name "Full Name"
+
+3. Setting email address:-- git config --global user.email "Email ID"
+
+4. Setting automatic command line coloring for Git for easy reviewing:-- git config --global color.ui auto
+
+
+
+
+Notes:-
+-------------------
+
+1. git add prod* --> this command only add those files to the staging area whose name startes with "prod" and rest files will not go to the staging area.(Wilf card 		     commit).
+
+2. git commit -a -m "message" || git commit -am "message" --> for staging and commit together
+
+3. .gitignore file is used to ignore specific files from unintentionally staging or commiting.
+	Ex:-- cache/  -->Ignore all the files in any directory named cache
+	      .env    -->Ignore .env file
+	      *.txt   -->Ignore any file with .txt extension 

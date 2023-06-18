@@ -1,0 +1,49 @@
+Constructor :- Initializing of state, Binding the eventHandler with this.
+
+getDerivedStateFromProps:- Used for update state w.r.t. props
+
+render:- Creating React Element
+
+componentDidMount:-  Initialization that requires DOM nodes should go here.
+		     This is where Ajax request and DOM or state updates should occur. This method is also used for integration with other javascript framewroks and any functions with delayed execution such as setTimeout or setInterval.
+The API calls should be made in this method always.
+Get data from server and set the data to state.
+
+shouldComponentUpdate:- For controlling re-rendering of component
+
+getSnapshotBeforeUpdate:- capturing information before update  
+
+componentDidUpdate:- This method is used to re trigger the third party libraries used to make sure these libraries also update and reload themselves.
+
+componentWillUnmount:- Perform any necessary cleanup in this method, such as invalidating timers, canceling network requests, or cleaning up any subscription that were created in.
+
+
+The second parameter to setState() is an optional callback function that will be executed once setState is completed and the component is re-rendered. componentDidUpdate should be used instead to apply such logic in most cases. You may directly pass an object as the first argument to setState instead of a function.
+
+
+Reconciliation is the process through which React updates the DOM. When a component's state changes, React has to calculate if it is necessary to update the DOM. It does this by creating a virtual DOM and comparing it with the current DOM. In this context, the virtual DOM will contain the new state of the component.
+
+
+How virtual DOM works?
+
+1. Whenever any underlying data changes, the entire UI is re-rendered in the Virtual DOM representation.
+2. Then the difference between the previous DOM representation and the new one is calculated.
+3. Once the calculations are done, the real DOM will be updated with only the things that have actually changed.
+
+setState method is asynchronous.
+
+
+The term “render prop” refers to a technique for sharing code between React components using a prop whose value is a function.
+A component with a render prop takes a function that returns a React element and calls it instead of implementing its own render logic.
+
+
+React.memo() -  https://linguinecode.com/post/prevent-re-renders-react-functional-components-react-memo
+
+
+How to stop re-rendering of the component when we are typing inside input fields
+we can use uncontrolled component (Using Ref)
+
+
+A regular component does not implement the shouldComponetUpdate method. It always returns true by default.
+
+A Pure component on the other hand implements shouldComponentUpdate with a shallow props and state comparison.

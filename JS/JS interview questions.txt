@@ -1,0 +1,14 @@
+Javascript hoisting
+https://medium.freecodecamp.org/3-questions-to-watch-out-for-in-a-javascript-interview-725012834ccb
+Javascript ES6 features implementations
+closure function
+inheritance in java script, prototypes
+array functions -> map, reduce, filter
+how to sort number in array not string
+create slider using javascript
+what is babel and use
+what is webpack and its use
+https://www.guru99.com/javascript-interview-questions-answers.html
+how to create dom elements using javascript
+https://www.edureka.co/blog/interview-questions/javascript-interview-questions/
+https://www.softwaretestinghelp.com/javascript-interview-questions/

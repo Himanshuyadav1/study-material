@@ -1,0 +1,1 @@
+Margin collapse only work in top and bottom.
