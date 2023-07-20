@@ -1,0 +1,313 @@
+Strings are immutable.
+
+String methods:- trim(), toUpperCase(), toLowerCase(), slice(start,end)
+
+cloning array
+let array1 = ["item1", "item2"];
+let array2 = array1.slice(0) or array1.slice(); // 1st way and fastest
+let array2 = [].concat(array1); // 2nd way 
+let array2 = [...array1]; // 3rd way
+
+
+for of loop works on array items.
+for in loop works on array index.
+
+
+How to iterate object:-
+1. for in loop
+2. Object.keys:-Object.keys return array of keys in object.
+
+
+example:
+const person = {name: "ABC", age: 22, "person hobbies": ["guitar", "sleeping", "listening music"]};
+
+1. for in loop:-
+for(let key in person) {
+	console.log(person[key]);
+}
+
+2. Object.keys
+for(let key of Object.keys(person)) {
+	console.log(person[key]);
+}
+
+spread operator on string in array
+const arr = [..."abc"];
+console.log(arr); // ["a", "b", "c"]
+
+spread operator on string in object
+const obj = {..."abc"};
+console.log(obj); // {0: "a", 1: "b", 2: "c"}
+
+spread operator on array in object
+const obj = {...["item1", "item2"]};
+console.log(obj); // {0: "item1", 1: "item2"}
+
+Lexical Scope: Searching for variable in its parent's scope.
+
+Higher Order Function(HOF):- A function, which can receive a function as a parameter or can return a function, is known as HOF.
+
+forEach, map, filter , reduce will not change the original array but sort, fill, splice method will change the original array.
+
+myArr.fill(value,start,end); // return the changed array
+myArr.splice(start, num of items to be deleted, inserted items); // return array of deleted items 
+
+Iterables:- those data types on which we can apply for of loop. (String, Array, Map).
+
+Set:- It is a collection of unique values(no duplicate value allowed). A set can hold any value of any data type. No index based access. Order is no guaranteed.
+let mySet = new Set();
+
+Map:-It is iterable. store data in ordered fashion. Store key value pair (like object) but duplicate keys are not allowed like objects.
+
+difference between map and object:-
+Object can only have string or symbol as key but in Map you can use any datatype as key like array, object , number.
+
+let myMap = new Map();
+let myMap = new Map([['key1', 'value1'], ['key2', 'value2']]);
+
+Cloning Object:-
+const person = {name: "ABC", age: 22, "person hobbies": ["guitar", "sleeping", "listening music"]};
+const obj = {...person}; //1 way
+const obj = Object.assign({}, person); //2 way
+
+Optional Chaining:- checking that variable is exist or not which is present before question mark if that variable is present then it will proceed.
+const obj = {firstName: 'Himanshu', address: {houseNum: 007}};
+console.log(obj?.firstName);
+console.log(obj?.address?.houseNum);
+
+this inside arrow function:- Inside arrow function this keyword take reference from it's surrounding(one level up).
+const user = {
+	firstName: "Harsh",
+	age: 18,
+	about: () => {
+		console.log(this, this.firstName, this.age);
+	}
+}
+user.about(); // Window undefined undefined
+
+Factory function:- A function that creates an object and returns it.
+
+Object.create(obj) is creating a blank object and setting the __proto__ of instance to the provided obj. 
+
+new keyword sets [[Prototype]] or __proto__ of instance(object) to Constructor function's prototype property. 
+
+for checking own keys of object we can use hasOwnProperty.
+
+Object.getPrototypeOf(obj) return the prototype (i.e. the value of the internal [[Prototype]] or __proto__ property) of the specified object. 
+
+Inheritance in JS using extends keyword.
+example for class; inheritance(base(parent) class, sub(child) class) extends keyword; super keyword; method overriding; static properties and methods
+ 
+class Animal {
+	constructor(name, age) {
+		this.name = name;
+		this.age = age;
+	}
+	
+	static planet = "Earth";
+
+	static show() {
+		return 'This is static method';
+	}
+	
+	eat() {
+		return `${this.name} is eating.`;
+	}
+}
+
+class Dog extends Animal {
+	constructor(name, age, speed) {
+		super(name, age);
+		this.speed = speed;
+	}
+	
+	eat() {
+		return `Modified: ${this.name} is eating.`;
+	}
+}
+
+const tommy = new Dog("tommy", 2, 10);
+tommy.eat();
+Dog.planet || Animal.planet // accessing static property
+Dog.show() || Animal.show() // accessing static method
+
+Static properties and methods cannot be directly accessed on instances of the class. Instead, they're accessed on the class itself. It is also inherited.
+Static methods are often utility functions, such as functions to create or clone objects, whereas static properties are useful for caches, fixed-configuration, or any other data you don't need to be replicated across instances.
+
+In JavaScript, there are two kinds of object properties:
+Data properties (normal properties)
+Accessor properties (getter and setter)
+
+In JavaScript, accessor properties are methods that get or set the value of an object. For that, we use these two keywords:
+get - to define a getter method to get the value as a property
+set - to define a setter method to set the property value
+
+let user = {
+  name: "John",
+  surname: "Smith",
+
+  get fullName() {
+    return `${this.name} ${this.surname}`;
+  },
+
+  set fullName(value) {
+    [this.name, this.surname] = value.split(" ");
+  }
+};
+
+// trying to access as a method
+console.log(user.fullName()) // error
+
+// accessing getter methods
+console.log(user.fullName) // John Smith
+
+// set fullName is executed with the given value.
+user.fullName = "Alice Cooper";
+
+alert(user.name); // Alice
+alert(user.surname); // Cooper
+
+
+Compilation Phase:-
+1. Tokenizing/lexing
+2. Parsing
+3. Code Generation
+
+code sabse pahle compile hota h jisme sabse pahle tokens bante h fir usko parse krte h jisse Abstract Syntax Tree (AST) banta h uske baad code generate hota h jiske baad code execute hota h.
+
+compile karne k 2 reason h
+1. early error checking
+2. determining appropriate scope for variables
+
+In order to execute JS code JS creates execution context
+
+Global Execution Context
+1. creation phase // Memory creation
+2. code execution phase
+
+JavaScript is synchronous programming language and it is singal threaded.
+
+Temporal Dead Zone(TDZ):- jab tak variable uninitialized rahte h wo TDZ m hote h.
+
+arguments:- array like object. index based access and length property.
+
+Note:- Array like object --> indexing, length property
+
+4 ways to add JS file in HTML
+
+1. <head>
+		<script src="./app.js"></script>
+   </head>
+isme HTML parsing se pahle hi javacript file execute hone lagta h aur jisse error aate h kyuki HTML parsing nhi hue hoti hai.
+
+
+2.<body>
+<script src="./app.js"></script>
+</body>
+jab javascript file last m add krte h to us case m pahle HTML file parse hota h usme time lgta h fir javascript file load hota h usme time lagta h aur fir execute hone m time lagta h.
+
+3.<head>
+<script src="./app.js" async></script>
+</head>
+jab javascript file add krte time async attribute likhte h tab HTML file parsing k saath javascript file bhi load hota rhta h par jaise hi javascript file load ho jata wo HTML parsing ko jha tk parsing kiya h wha tak krk stop kr deta h aur javascript file ko execute krne lagta h Jisse error hone k chances ho jate h.
+
+4.<head>
+<script src="./app.js" defer></script>
+</head>
+jab javascript file add krte time defer attribute likhte h tab HTML file parsing k saath javascript file bhi load hota rhta h aur jab javacript file load ho jata h to ye javascript ki file ko turant execute nhi krta h balki wait krta h jab tk ki HTML parsing complete na ho jaye. fir JS file ko execute krta h.
+
+getElementById() method returns element object.
+querySelector() method returns the first element object that matches a CSS selector.
+getElementsByClassName() gives HTMLCollections(array like object) on which we can apply for loop, for-of loop.
+getElementsByTagName() gives HTMLCollections(array like object) on which we can apply for loop, for-of loop.
+querySelectorAll() gives NodeList(array like object) on which we can apply for loop, for-of loop and forEach loop.
+
+textContent gives all the texts even some text part of that element is hidden whereas innerText gives only those text which is visible on webpage.  
+
+getAttribute('attribute') method return the value of provided attribute.
+setAttribute('attribute', 'value') method set the value of provided attribute.
+
+Iterate elements:- 
+HTMLCollections --> for loop, for-of loop.
+NodeList --> for loop, for-of loop and forEach loop.
+
+Note:- Array.from(value) method return array of provided value.
+
+DOM Traversing:-
+document.getRootNode(); //document
+childNodes --> property gives NodeList of child of the element including text node.
+parentNode --> property gives the parent node of the element.
+parentElement --> property gives the parent element of the element.
+The difference between parentElement and parentNode, is that parentElement returns null if the parent node is not an element node.
+nextSibling --> property gives the next sibling node (text node also include). 
+nextElementSibling --> property gives the next sibling element (text node not include).
+Note:- to show white-space we can apply below style
+* {
+	white-space: normal // default setting
+	white-space: pre // for showing space on webpage
+}
+children --> property gives the child element of the element.
+
+classList --> The classList property returns (DOMTokenList) the CSS classnames of an element.
+			  classList property itself is read-only, you can modify its associated DOMTokenList using the add(), remove(), contains(), replace(), and toggle() methods.
+			  
+Add new element to page:-
+	createElement()
+	append()
+	prepend()
+	remove()
+	before()
+	after()
+
+elem.insertAdjacentHTML(where, html);
+	beforebegin
+	afterbegin
+	beforeend
+	afterend
+
+clone Node:- 
+elem.cloneNode(true) --> it will clone the elem and for the deep cloning provide true argument.
+
+some old methods to support IE:-
+appendChild() -->  method appends a node (element) as the last child of an element.
+	element.appendChild(node) 
+insertBefore() --> method inserts a child node before an existing child.
+	element.insertBefore(new, existing)
+replaceChild() --> method replaces a child node with a new node.
+	node.replaceChild(newnode, oldnode)
+removeChild() --> method removes an element's child.
+	element.removeChild(node)
+
+Note:- li{item $}*5
+
+static list & live list:-
+querySelectorAll() --> provide static list.
+getElementsBySomething() --> provide live list.
+
+get dimension of element:-
+elem.getBoundingClientRect() --> returned value is a DOMRect object which is the smallest rectangle which contains the entire element, including its padding and border-width. The left, top, right, bottom, x, y, width, and height properties describe the position and size of the overall rectangle in pixels.
+
+value of 'this' in eventListener callback
+
+1. this with normal function:-
+elem.addEventListener('click', function() {
+	console.log(this); // elem
+})
+
+2. this with arrow function:-
+elem.addEventListener('click', () => {
+	console.log(this); //window
+})
+
+Event Object:-
+1. with normal function
+elem.addEventListener('click', function(e) {
+	console.log(e.target); // elem
+	console.log(e.currentTarget); // elem
+})
+
+2. with arrow function
+elem.addEventListener('click',(e) => {
+	console.log(e.target); // elem
+	console.log(e.currentTarget); // elem
+})
