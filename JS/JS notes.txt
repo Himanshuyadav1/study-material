@@ -56,7 +56,7 @@ Iterables:- those data types on which we can apply for of loop. (String, Array, 
 
 Set:- It is a collection of unique values(no duplicate value allowed). A set can hold any value of any data type. No index based access. Order is no guaranteed.
 let mySet = new Set();
-
+ 
 Map:-It is iterable. store data in ordered fashion. Store key value pair (like object) but duplicate keys are not allowed like objects.
 
 difference between map and object:-
@@ -91,7 +91,8 @@ Object.create(obj) is creating a blank object and setting the __proto__ of insta
 
 new keyword sets [[Prototype]] or __proto__ of instance(object) to Constructor function's prototype property. 
 
-for checking own keys of object we can use hasOwnProperty.
+for checking own keys of object we can use hasOwnProperty method.
+obj.hasOwnProperty(key) --> boolean value
 
 Object.getPrototypeOf(obj) return the prototype (i.e. the value of the internal [[Prototype]] or __proto__ property) of the specified object. 
 
@@ -158,7 +159,7 @@ let user = {
 // trying to access as a method
 console.log(user.fullName()) // error
 
-// accessing getter methods
+// accessing getter method
 console.log(user.fullName) // John Smith
 
 // set fullName is executed with the given value.
@@ -253,17 +254,30 @@ classList --> The classList property returns (DOMTokenList) the CSS classnames o
 			  
 Add new element to page:-
 	createElement()
-	append()
-	prepend()
-	remove()
-	before()
-	after()
+	append() -->method inserts a set of Node objects or string objects after the last child of the Element.
+	Differences from Node.appendChild():
+		1.	Element.append() allows you to also append string objects, whereas Node.appendChild() only accepts Node objects.
+		2.	Element.append() has no return value, whereas Node.appendChild() returns the appended Node object.
+		3.	Element.append() can append several nodes and strings, whereas Node.appendChild() can only append one node.
+	prepend() --> method inserts a set of Node objects or string objects before the first child of the Element.
+	remove() 
+	before() --> method inserts a set of Node or string objects in the children list of this Element's parent, just before this Element.
+	after() -->  method inserts a set of Node or string objects in the children list of the Element's parent, just after the Element.
 
 elem.insertAdjacentHTML(where, html);
 	beforebegin
 	afterbegin
 	beforeend
 	afterend
+	
+	<!-- beforebegin -->
+	<p>
+	  <!-- afterbegin -->
+	  foo
+	  <!-- beforeend -->
+	</p>
+	<!-- afterend -->
+
 
 clone Node:- 
 elem.cloneNode(true) --> it will clone the elem and for the deep cloning provide true argument.
@@ -271,8 +285,8 @@ elem.cloneNode(true) --> it will clone the elem and for the deep cloning provide
 some old methods to support IE:-
 appendChild() -->  method appends a node (element) as the last child of an element.
 	element.appendChild(node) 
-insertBefore() --> method inserts a child node before an existing child.
-	element.insertBefore(new, existing)
+insertBefore() --> method inserts a child node before an existing child. If the given node already exists in the document, insertBefore() moves it from its current position to the new position.
+	element.insertBefore(newChild, existingChild)
 replaceChild() --> method replaces a child node with a new node.
 	node.replaceChild(newnode, oldnode)
 removeChild() --> method removes an element's child.
@@ -311,3 +325,423 @@ elem.addEventListener('click',(e) => {
 	console.log(e.target); // elem
 	console.log(e.currentTarget); // elem
 })
+
+Note:- 
+currentTarget--> kis element par eventListener attach hai.  
+target--> kis element ne event ko triger kiya.
+
+event bubbling / event propogation  --> target p event aane k baad parent p jata h.
+event capturing ---> sabse pahle capturing hota h fir bubbling hota h. capturing ko capture krne k liye true 3rd agrument pass krna hota h eventListener m.
+event delegation ---> kisi ek element p eventListener laga kar uske parent ya child p same event k liye kuch bhi perform krana
+
+Note: - h1.heading$*7{Hello world} --> create 7 h1 tag with different class (heading1,..,heading7)
+
+setTimeout(cb,time) ---> clearTimeout(id)
+setInterval(cb, time) ---> clearInterval(id)
+
+Promise:- JavaScript Promise are easy to manage when dealing with multiple asynchronous operations where callbacks can create callback hell leading to unmanageable code.
+			Promises are used to handle asynchronous operations in JavaScript.
+			
+Syntax:
+let promise = new Promise(function(resolve, reject){
+     //do something
+});
+
+Parameters:-
+1. The promise constructor takes only one argument which is a callback function
+2. The callback function takes two arguments, resolve and reject
+		a.Perform operations inside the callback function and if everything went well then call resolve.
+		b.If desired operations do not go well then call reject.
+		
+A Promise has four states:
+1.fulfilled: Action related to the promise succeeded
+2.rejected: Action related to the promise failed
+3.pending: Promise is still pending i.e. not fulfilled or rejected yet
+4.settled: Promise has been fulfilled or rejected
+
+let promise = new Promise(function (resolve, reject) {
+    const x = "geeksforgeeks";
+    const y = "geeksforgeeks"
+    if (x === y) {
+        resolve();
+    } else {
+        reject();
+    }
+});
+ 
+promise.
+    then(function () {
+        console.log('Success, You are a GEEK');
+    }).
+    catch(function () {
+        console.log('Some error has occurred');
+    });
+	
+Promise Consumers: Promises can be consumed by registering functions using .then and .catch methods.
+
+1.Promise then() Method: It is invoked when a promise is either resolved or rejected. It may also be defined as a carrier that takes data from promise and further executes it successfully.
+
+Parameters: It takes two functions as parameters.
+
+The first function is executed if the promise is resolved and a result is received.
+The second function is executed if the promise is rejected and an error is received. (It is optional and there is a better way to handle error using .catch() method
+Syntax:
+
+.then(function(result){
+        //handle success
+}, function(error){
+        //handle error
+})
+
+example:-
+
+let promise = new Promise(function (resolve, reject) {
+    resolve('Geeks For Geeks');
+})
+ 
+promise
+    .then(function (successMessage) {
+        //success handler function is invoked
+        console.log(successMessage);
+    }, function (errorMessage) {
+        console.log(errorMessage);
+    });
+
+example:-
+let promise = new Promise(function (resolve, reject) {
+    reject('Promise Rejected')
+})
+ 
+promise
+    .then(function (successMessage) {
+        console.log(successMessage);
+    }, function (errorMessage) {
+        //error handler function is invoked
+        console.log(errorMessage);
+    });
+	
+2. Promise catch() Method: It is invoked when a promise is either rejected or some error has occurred in execution. It is used as an Error Handler whenever at any step there is a chance of getting an error.
+
+Parameters: It takes one function as a parameter.
+
+Function to handle errors or promise rejections.(.catch() method internally calls .then(null, errorHandler), i.e. .catch() is just a shorthand for .then(null, errorHandler) )
+Syntax:
+
+.catch(function(error){
+        //handle error
+    })
+	
+example:-
+let promise = new Promise(function (resolve, reject) {
+    reject('Promise Rejected')
+})
+ 
+promise
+    .then(function (successMessage) {
+        console.log(successMessage);
+    })
+    .catch(function (errorMessage) {
+        //error handler function is invoked
+        console.log(errorMessage);
+    });
+
+Microtask queue --> Promise ka result microtask queue mai jata h na ki callback queue. microtask queue ki priority jyada h callback queue.
+
+Promise.resolve:- it always returns promise.
+const myPromise = Promise.resolve(5);
+   myPromise.then(value=>{
+   console.log(value);
+ })
+
+
+Promise chaining
+Note:- Promise m then humesa promise return krta hai. agar then method se kuch return nhi krte h to ye 'undefined'(Promise.resolve(undefined)) return krta hai.
+
+
+function myPromise(){
+  return new Promise((resolve, reject)=>{
+    resolve("foo");
+  })
+}
+
+myPromise()
+  .then((value)=>{
+    console.log(value);
+    value += "bar";
+    return value // internally Promise.resolve(value)
+  })
+  .then((value) =>{
+    console.log(value);
+    value += "baaz";
+    return value;
+  })
+  .then(value=>{
+    console.log(value);
+  })
+
+
+AJAX- Asynchronous javascript and XML
+
+we have 3 most common ways to create and send request to server:-
+	1. xmlHTTPRequest (old way of doing)
+	2. fetch API (new way of doing)
+	3. axios (3rd party library)
+	
+	
+1. xmlHTTPRequest
+const URL = "https://jsonplaceholder.typicode.com/posts";
+const xhr = new XMLHttpRequest();
+// console.log(xhr);
+// step1
+// console.log(xhr.readyState);
+xhr.open("GET",URL);
+// console.log(xhr.readyState);
+// xhr.onreadystatechange = function(){
+//     // console.log(xhr.readyState);
+//     if(xhr.readyState === 4){
+//         console.log(xhr)
+//         const response = xhr.response;
+//         const data = JSON.parse(response);
+//         console.log(typeof data);
+//     }
+// }
+
+xhr.onload = function(){ //isme hume readyState ko check krne ki jarurat nhi h kyuki onload tabhi run krta h jab readyState ki value 4 ho.
+    if(xhr.status >= 200 && xhr.status < 300) {  // error handling
+		const response = xhr.response;
+		const data = JSON.parse(response);
+		console.log(data);
+	} else {
+		console.log("Something went wrong");
+	}	
+}
+
+xhr.onerror = () => {
+	console.log("network error");
+}
+
+xhr.send();
+
+readyState value and their meaning:-
+Value	State				Description
+0		UNSENT				Client has been created. open() not called yet.
+1		OPENED				open() has been called.
+2		HEADERS_RECEIVED	send() has been called, and headers and status are available.
+3		LOADING				Downloading; responseText holds partial data.
+4		DONE				The operation is complete.
+ 
+
+XHR using promises:-
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+function sendRequest(method, url) {
+    return new Promise(function(resolve, reject) {
+        const xhr  = new XMLHttpRequest();
+        xhr.open(method, url);
+        xhr.onload = function() {
+            if(xhr.status >= 200 && xhr.status < 300){
+                resolve(xhr.response);
+            }
+            else{
+                reject(new Error("Something Went wrong"));
+            }
+        }
+
+        xhr.onerror = function() {
+            reject(new Error("Something went wrong"));
+        }
+
+        xhr.send();
+    })
+}
+
+sendRequest("GET", URL)
+    .then(response => {
+        const data = JSON.parse(response);
+        // console.log(data)
+        return data;
+    })
+    .then(data=>{
+        const id = data[3].id;
+        return id;
+    })
+    .then(id=>{
+        const url = `${URL}/${id}ssss`;
+        return sendRequest("GET", url);
+    })
+    .then(newResponse => {
+        const newData = JSON.parse(newResponse);
+        console.log(newData);
+    })
+    .catch(error =>{
+        console.log(error);
+    })
+	
+Fetch API:-- Note:-- Fetch API m catch block sirf network issue pe chalta normally. catch block ko rest issues k liye run krne k liye response.ok ka use krna padega.
+
+// fetch 
+
+const URL = "https://jsonplaceholder.typicode.com/postssss";
+
+fetch(URL,{
+    method: 'POST',
+    body: JSON.stringify({
+        title: 'foo',
+        body: 'bar',
+        userId: 1,
+    }),
+    headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+    },
+    })
+    .then(response =>{
+        if(response.ok){
+            return response.json()
+        }else{
+            throw new Error("Something went wrong!!!")
+        }
+    })
+    .then(data =>{
+        console.log(data);
+    })
+    .catch(error =>{
+        console.log("inside catch");
+        console.log(error);
+    })
+
+Async-Await:-
+async makes a function return a Promise.
+await makes a function wait for a Promise.
+The await keyword can only be used inside an async function.
+The await keyword makes the function pause the execution and wait for a resolved promise before it continues:
+
+console.log("1");
+const show = async () => {
+    console.log("show");
+    return "hi";
+}
+show().then(data => console.log(data));
+console.log("2");
+
+O/p:-
+1
+show
+2
+hi
+
+
+// async await
+
+// fetch(URL)
+//     .then(response => {
+//         return response.json()
+//     })
+//     .then(data => {
+//         console.log(data);
+//     })
+console.log("script start");
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+// async function getPosts(){
+//     const response = await fetch(URL);
+//     if(!response.ok){
+//         throw new Error("Something went wrong")
+//     }
+//     const data = await response.json();
+//     return data;
+// }
+
+
+const getPosts = async() =>{
+    const response = await fetch(URL);
+    if(!response.ok){
+        throw new Error("Something went wrong")
+    }
+    const data = await response.json();
+    return data;
+}
+
+// const myData = getPosts();
+// console.log(myData);
+
+getPosts()
+    .then((myData) => {
+        console.log(myData);
+    })
+    .catch(error =>{
+        console.log("inside catch")
+        console.log(error);
+    })
+
+console.log("script end ");	
+
+ES6 Modules:--
+<head>
+<script src="./app.js" type="module"></script> // type="module" krne par defer likhne ki jarurat nhi hoti hai.
+</head>
+
+Note:-- try to use "input" event instead of "keyup" || "keypress" || "Keydown"
+
+Decorator Function:- it takes a function as a argument and return that function with inhanced feature.
+
+Debouncing:-- calling a function with some delay. e.g. input box m har ek keyword p function ko call na krk kuch delay pe call krte h jisse performance improve hota hai.
+			Debouncing is a programming pattern or a technique to restrict the calling of a time-consuming function frequently, by delaying the execution of the function until a specified time to avoid unnecessary CPU cycles, and API calls and improve performance.
+			
+const myInput = document.getElementById("input-event");
+
+function findSuggestions(e) {
+	console.log("Suggestions for ", e.target.value);
+}
+
+function trailingDebouncing(func, delay) { // wait krne k baad function call krna ho tab
+	let timeOutId;
+	return function(...arg) {
+		if(timeOutId) {
+			clearTimeout(timeOutId);
+		}
+		timeOutId = setTimeout(() => {
+			func.call(this, ...arg);
+		}, delay);
+	}
+}
+
+function leadingDebouncing(func, delay) { // function call krk wait krna ho tab
+	let timeOutId = null;
+	return function(...arg) {
+		if(timeOutId === null) {
+			func.call(this, ...arg);
+		}
+		clearTimeout(timeOutId);
+		timeOutId = setTimeout(() => {
+			timeOutId = null;
+		}, delay);
+	}
+}
+
+function debounce(func, delay, option = {leading: false, trailing: true}) { 
+	let timeOutId = null;
+	return function(...arg) {
+		let isInvoked = false;
+		if(timeOutId === null && option.leading) {
+			func.call(this, ...arg);
+			isInvoked = true;
+		}
+		clearTimeout(timeOutId);
+		timeOutId = setTimeout(() => {
+			if(option.trailing && !isInvoked) {
+				func.call(this, ...arg);
+			}
+			timeOutId = null;
+		}, delay);
+	}
+}
+
+function clickMe() {
+	console.log("Add to cart");
+}
+
+btn.addEventListener("click", debounce(clickMe, 300, (option = {leading: false, trailing: true}) ))
+
+const decoratedFindSuggestions = leadingDebouncing(findSuggestions, 300);
+
+myInput.addEventListener("input", decoratedFindSuggestions);
