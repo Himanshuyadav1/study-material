@@ -79,7 +79,7 @@ this inside arrow function:- Inside arrow function this keyword take reference f
 const user = {
 	firstName: "Harsh",
 	age: 18,
-	about: () => { // Short syntax for methods(about() {})
+	about: () => {
 		console.log(this, this.firstName, this.age);
 	}
 }
@@ -133,7 +133,7 @@ Dog.planet || Animal.planet // accessing static property
 Dog.show() || Animal.show() // accessing static method
 
 Static properties and methods cannot be directly accessed on instances of the class. Instead, they're accessed on the class itself. It is also inherited.
-Note:- Static methods are often utility functions, such as functions to create or clone objects, whereas static properties are useful for caches, fixed-configuration, or any other data you don't need to be replicated across instances.
+Static methods are often utility functions, such as functions to create or clone objects, whereas static properties are useful for caches, fixed-configuration, or any other data you don't need to be replicated across instances.
 
 In JavaScript, there are two kinds of object properties:
 Data properties (normal properties)
@@ -745,3 +745,711 @@ btn.addEventListener("click", debounce(clickMe, 300, (option = {leading: false, 
 const decoratedFindSuggestions = leadingDebouncing(findSuggestions, 300);
 
 myInput.addEventListener("input", decoratedFindSuggestions);
+
+--------------------------
+coder dost - JS
+-------------------------------------------------------
+IIFE - Immediately Invoked Function Expression
+
+(function(name) {
+	console.log(`Welcome! ${name}`);
+})("Goku");
+
+function is made as expression using () - so function doesn't require name.
+
+Note(tricky):- we can't use continue keyword in forEach loop.
+[1, 2, 3, 4, 5].forEach(v => {
+  if (v % 2 !== 0) {
+    // SyntaxError: Illegal continue statement: no surrounding iteration statement
+    continue;
+  }
+});
+
+Solution:-
+// Prints "2, 4"
+[1, 2, 3, 4, 5].forEach(v => {
+  if (v % 2 !== 0) {
+    return;
+  }
+  console.log(v);
+});
+
+
+Math Library
+-----------------------
+1.Math.abs(-2) --> 2
+2.Math.round(2.66) --> 3 || Math.round(2.46) --> 2
+3.Math.floor(2.66) --> 2
+4.Math.ceil(2.46) --> 3
+5.Math.pow(2,3) --> 8 || 2**3 -->8
+6.Math.sqrt(4) --> 2
+7.Math.max(2,3,100,46) --> 100
+8.Math.min(2,1,100,46) --> 1
+9.Math.random() --> 0.4652186276
+10.Math.trunc(2.346) --> 2 || Math.trunc(-99.9) --> -99
+
+
+form m form ko select karke form.typeofInput.value(form.password.value) aise bhi value get kr sakte h ya fir form.valueOfNameAttribute.value(form.username.value) aise bhi value get kar skate hai.
+
+Array Methods
+array.slice(startIndex, lastIndex(excluded, optional))
+array.at(Index) // useful in the case of negative value it select from the end array.at(-1) provide last element of array.
+array.findIndex(cb) --> index of first element which satisfied the condition otherwise -1. 
+array.flat(depth level (default 1)) --> convert nested array of arrays into plain array and no effect on original array.
+array.flatMap(cb) 
+const arr1 = [1, 2, 1];
+const result = arr1.flatMap((num) => (num === 2 ? [2, 2] : 1));
+console.log(result);
+// Expected output: Array [1, 2, 2, 1] 
+
+
+Date & Time (Methods):--
+-----------------------
+let completeDateAndTime = new Date();
+console.log(completeDateAndTime);
+
+// Get Full Year
+console.log(completeDateAndTime.getFullYear());
+
+// Get Month
+console.log(completeDateAndTime.getMonth()); // 0 to 11
+
+// Get Month Day
+console.log(completeDateAndTime.getDate());
+
+// Get Weekday
+console.log(completeDateAndTime.getDay()); // 0 to 6 (0 - sunday, 1 - monday, and so on)
+
+// Get Hours
+console.log(completeDateAndTime.getHours());
+
+// Get Minutes
+console.log(completeDateAndTime.getMinutes());
+
+// Get Seconds
+console.log(completeDateAndTime.getSeconds()); 	
+
+// Get the number of milliseconds since January 1, 1970 00:00:00.
+console.log(completeDateAndTime.getTime()); 	
+
+
+
+Local Storage:--- It is a API of Browser(Window Object) to store data locally. Every origin separately stores data.
+-------------------------
+localStorage.setItem(key, value); // Adding Data; key, value --> only string type
+localStorage.getItem(key) // Getting Data; key --> only string type; if key is not found, returns null
+localStorage.removeItem(key) // Removing data; key --> only string type; 
+localStorage.clear() // Clear All Data; removes all keys for that origin
+
+Example:--
+let vehicles = [
+	{company: "Honda", model: "2009"},
+	{company: "Toyota", model: "2010"}
+];
+
+let stringOfVehicles = JSON.stringify(vehicles);
+
+//Setting value in local storage
+localStorage.setItem('vehicles', stringOfVehicles);
+
+console.log(localStorage);
+
+//Get stored item again in object format
+let storedData = localStorage.getItem('vehicles');
+
+let objectFormate = JSON.parse(storedData);
+
+console.log(objectFormate);
+
+
+Note:-- Constructor function k liye arrow function ka use nhi kar sakte h kyuki new keyword kaam nhi krta h. It will show typeError.
+
+instanceof:-- The instanceof operator tests to see if the prototype property of a constructor appears anywhere in the prototype chain of an object. The return value is a boolean value.
+
+function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+}
+const auto = new Car('Honda', 'Accord', 1998);
+
+console.log(auto instanceof Car);
+// Expected output: true
+
+console.log(auto instanceof Object);
+// Expected output: true
+
+Note:--
+1. Classes are not hoisted.
+2. Classes are also first class citizens(Pass as an argument or return).
+3. Classes are executed in strict mode.
+
+Prototypal inheritance(using constructor function) -- check
+
+Note:-- For chaining method in class we should return this from the methods.
+
+Short circuiting:-->
+let result = "Goku" && "Gohan"; 
+console.log(result); // Gohan
+
+let result = 0 && "Gohan"; 
+console.log(result); // 0
+
+let result = "Goku" || "Gohan"; 
+console.log(result); // Goku
+
+Nullish Coalesing operator(??):--> It return first non-nullish value. For nullish coalesing operator only "null" and "undefined" are falsy value.
+
+let numGuests = 0;
+let result = numGuests || 10;
+console.log(result); // 10
+let result2 = numGuests ?? 10;
+console.log(result2); // 0
+
+Object literals shorthand:-->
+let menuType = "platinumMenu";
+let hotel = {
+	name: 'R.K. Guest House',
+	location, // incase key and value are same.
+	[menuType]: .... // incase we want computed key value.
+}
+
+Object Methods:-->
+Object.keys(obj) --> return array of keys of provided object.
+Object.values(obj) --> return array of values of provided object.
+Object.entries(obj) --> return array of arrays([key,value]) of provided object.
+
+Top level "await":-- Before ES2022 we can use await only inside async function But in ES2022 introduced top level "await". It means now we can use "await" outside the async function.
+Note:-- Top level await "block the execution" of next code part.
+
+example:--
+console.log("Start");
+let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+let data = await response.json();
+console.log(data);
+console.log("End");
+
+o/p:-
+Start
+[data] // wait for data
+End
+
+Global Object:--The global Object is the variable window in case of browser. This helps you to use variables across the scopes. Also, it is the this value for global functions
+	In non-browser environment, window doesn't exist. but other global objects exist.
+	var affects this global obejct, also function declarations.(variable declared with var keyword and function declaration are accessable through window object.)
+
+NOTE : so whenever you have a function which wants to preserve a value over many calls - it's a time for closure.
+
+
+Currying:--
+
+function sum(a){
+  return function(b){
+    return function(c){
+       console.log(a,b,c)
+       return a+b+c
+    }
+  }
+}
+
+let add = a => b => c => a+b+c
+
+let log = time => type => msg => `At ${time.toLocaleString()}: severity ${type} => ${msg}`;
+
+log(new Date())('error')('power not sufficient')
+
+let logNow = log(new Date())
+
+logNow('warning')('temp high')
+
+let logErrorNow = log(new Date())('error')
+
+logErrorNow('unknown error')
+
+Copying objects:--
+
+Shallow Copy:--Many methods can be used to copy object without old reference
+
+1.Object.assign()
+let person =  {name:'john'}
+let newPerson = Object.assign({}, person) 
+
+2.Spread Operator[...]
+let person =  {name:'john'}
+let newPerson = {...person} 
+
+But problem which these is they just create a copy of properties of that object , but not creating a copy of their references also.
+
+let addressObject = { city: 'delhi', state: 'delhi' }
+
+let person = {
+  name: 'John',
+  address: addressObject
+};
+
+
+let newPerson = Object.assign({}, person)
+person === newPerson;  // false
+person.address === newPerson.address // true
+
+Deep Copy:--This is a hard problem to solve in past as there can be multiple level of nested objects and there can be references to functions etc also. few methods which are there:
+
+1. JSON.stringify and JSON.parse : this method utilizes the fact that every JSON can be converted to a string value (exception of methods/functions)
+let addressObject = { city: 'delhi', state: 'delhi' }
+
+let person = {
+  name: 'John',
+  address: addressObject
+};
+
+let str = JSON.stringify(person)
+let jsonObject = JSON.parse(str);
+
+
+2. structuredClone : Browser API which work even for circular references (but functions not supported)
+let addressObject = { city: 'delhi', state: 'delhi' }
+
+let person = {
+  name: 'John',
+  address: addressObject,
+};
+
+person.me = person
+
+let newPerson = structuredClone(person);
+
+Symbol:-
+	*Symbol is used for making hidden (library used properties).
+	*Symbol are always unique - so there is no chance of collision. Even with same "descriptor" they will be uniquely initialized.
+	*You can get Symbol for some descriptor or key using some methods.
+	*for..in loop ignore Symbols. Also methods like Object.keys() ignore these properties.
+	
+const id = Symbol("id"); // "id" is descriptor
+
+let person =  {
+  name:'john',
+  [id]:1
+} 
+
+person[id] // 1
+
+Decorator (Wrappers):--It's a design pattern in which you modify the functionality of a function by covering it inside a wrapper.
+
+let modifiedFx = Decorator(preDefinedFx)
+
+Memoization (Caching):- jab kisi function ki return value ko cache krte h to usko memoization kahte h.
+
+function heavy(x) {
+  console.log(x + ':heavy');
+  return x + ':heavy';
+}
+
+function memoized(fx) {
+  let map = new Map();
+  
+  return function (x) {  // wrapper
+    if (map.has(x)) {
+      return map.get(x);
+    } else {
+      let memoValue = fx(x);
+      map.set(x, memoValue);
+      return memoValue;
+    }
+  };
+}
+
+let memoizedHeavy = memoized(heavy)
+memoizedHeavy(2);
+memoizedHeavy(2); // take from cache
+
+
+Another Problem
+
+if you try to use this on a method of object, this approach can fail
+let task = {
+  name: 'demo',
+  heavy(x) {
+    console.log(x + ':heavy:' + this.name);
+    return x + ':heavy' + this.name;
+  },
+};
+
+function memoized(fx) {
+  let map = new Map();
+  return function (x) {
+    if (map.has(x)) {
+      return map.get(x);
+    } else {
+      let memoValue = fx(x);
+      map.set(x, memoValue);
+      return memoValue;
+    }
+  };
+}
+task.memoizedHeavy = memoized(task.heavy) 
+task.memoizedHeavy(1) // 1:heavyundefined
+
+Solution : use function.call()
+
+Solution
+
+let task = {
+  name: 'demo',
+  heavy(x) {
+    console.log(x + ':heavy:' + this.name);
+    return x + ':heavy' + this.name;
+  },
+};
+
+function memoized(fx) {
+  let map = new Map();
+  return function (x) {
+    if (map.has(x)) {
+      return map.get(x);
+    } else {
+      let memoValue = fx.call(this,x); // this will take obj reference from that object on which it is called.
+      map.set(x, memoValue);
+      return memoValue;
+    }
+  };
+}
+task.memoizedHeavy = memoized(task.heavy) 
+task.memoizedHeavy(1) // 1:heavydemo
+
+Debounce:--
+Run a function only when - if it has not been called again for a fixed period
+Suppose you are typing and take a pause of 1 second. Only then that function should be called.
+
+Note:-- setTimeout(functionRef, delay, param1, param2, /* …, */ paramN)
+
+let count = 1;
+function showCount() {
+  count++;
+  console.log({ count });
+}
+
+function debounce(fx, time) {
+  let id = null;
+  return function (x) {
+    if (id) {
+      clearTimeout(id);
+    }
+    console.log({ id });
+    id = setTimeout(() => {
+      fx(x);
+      id = null;
+    }, time);
+  };
+}
+
+let showCountD = debounce(showCount, 2000);
+setTimeout(showCountD, 1000);
+setTimeout(showCountD, 1500);
+setTimeout(showCountD, 2000);
+setTimeout(showCountD, 2500);
+setTimeout(showCountD, 5000);
+
+Throttle:--
+when you have to only allow 1 execution of a function within a period of time
+for example you are scrolling fast but only 1 scroll per 100 millisecond is considered.
+
+let count = 1;
+function showCount(x) {
+  count++;
+  console.log({ count, x });
+}
+
+function throttle(fx, time) {
+  let id = null;
+  let arg = [];
+  return function (x) {
+    arg[0] = x;
+    if (!id) {
+      id = setTimeout(() => {
+        fx(arg[0]);
+        id = null;
+      }, time);
+    }
+    console.log({ id });
+  };
+}
+
+let showCountT = throttle(showCount, 2000);
+setTimeout(showCountT, 1000, 1);
+setTimeout(showCountT, 1500, 2);
+setTimeout(showCountT, 2000, 3);
+setTimeout(showCountT, 2500, 4);
+setTimeout(showCountT, 3100, 5);
+setTimeout(showCountT, 4500, 6);
+setTimeout(showCountT, 5000, 7);
+
+o/p:- 
+{count: 2, x: 4}
+{count: 3, x: 6}
+{count: 4, x: 7}
+
+
+Iterables and Iterators:--
+
+Iterable (protocol):--Iterables are objects in which we can make array like iteration (Example using for..of loop of spread operators)
+
+	Array are iterables
+	String are iterables
+To make any object iterable we have these conditions
+	
+	implement a Symbol.iterator property, which should be a function which return an Iterator Object
+
+	iterable[Symbol.iterator]() => Iterator
+
+Iterator (protocol)
+Iterators are objects which have :
+
+	*a next() method which return a object which is of format {value:-some-value-, done:-boolean-} e.g. *{value: 1, done: false}
+	*value is the value we are interested in, while done tells us when to stop. Generally when done:true the value:undefined
+Now, making an Iterable is like this:
+
+let iterator = {
+  i: 0,
+  next: function () {
+    return { value: this.i, done: this.i++ > 5 };
+  },
+};
+
+let iterable = {
+  name: 'john',
+  age: 34,
+  [Symbol.iterator]() {
+    return iterator;
+  },
+};
+
+
+Example - Range :
+
+let range = {
+  start: 0,
+  end: 5,
+  [Symbol.iterator]() {
+    let that = this; // this line is very important
+    let i = this.start;
+    return { // iterator object
+      next: function () {
+        return { value: i, done: i++ > that.end };
+      }
+    };
+  },
+};
+
+Array
+
+let num = [1, 2, 3];
+let iterator = num[Symbol.iterator]();
+iterator.next();
+iterator.next();
+iterator.next();
+iterator.next();
+
+
+Infinite iterators:--
+*As we can see that we can control, how to control the next() function. In few cases, it will be useful to have iterators which can need to generate the next value infinitely
+*If you use such iterators in a loop etc. it can be dangerous as can create infinite loop. But can be controlled by break etc.
+*we will cover all this in generators.
+
+Iterables vs Array-like:--
+	*Iterable objects are based on Symbol.iterator method as defined above
+	*Array-like objects are based on array protocols (index and length)
+
+An object can be
+	Iterable + Array-like
+	Iterable only
+	Array-like only
+	None of them (not Iterable nor Array-like )
+	
+Conversions:--
+Array-like to Array
+Array.from() : method is used for this
+let arrayLike = {
+  0: 0,
+  1: 5,
+  length: 2
+};
+
+let arr = Array.from(arrayLike);
+
+// also used for general things
+
+let set = new Set()
+set.add(1);
+set.add(2);
+let arr2 = Array.from(set) // [1,2]
+
+Map:--
+	*this data type is also iterable
+	*special this is can have keys also as numbers, booleans, objects
+	*also map maintains the order of keys added.
+	
+Converting Object to Map:--
+We can use Object.entries() method for this.
+let obj = {a:1,b:2,c:3};
+let map = new Map(Object.entries(obj));
+
+Converting Map to Object:--
+We can use Object.fromEntries() method for this.
+let map = new Map();
+map.set('a', 1);
+map.set('b', 2);
+map.set('c', 3);
+
+let obj = (Object.fromEntries(map.entries())); // {a:1,b:2,c:3}
+
+Set:--
+Set is another iterable
+Set only contains uniques elements
+
+WeakMap and Weakset:--
+These are 2 alternative way of creating Map or Set like data types - when only object keys are considered.
+They have very limited operations and doesn't support all functionality
+Main purpose is that when keys are marked as null they are garbage collected. So this helps in better memory management
+let weakMap = new WeakMap()
+let person = {name:'john'}
+
+weakMap.set(person, {....});
+
+person = null // in future we decide to remove this key
+
+// so weakMap will remove it from memory space automatically
+
+Generators:-- read from doc.
+
+Note:-- enumerable--> jo countable ho.
+
+NOTE : Shims are piece of code to correct some existing behaviour, while Polyfills are new API/ behaviours.
+
+Private and Protected properties:--
+in Object Oriented Programming there is a concept of Encapsulation or Data Hiding - so that you just interact with object via given methods/properties. This avoids changing some internal properties which are not meant for public use.
+
+Protected:--
+	*this is something not provided by javascript but by convention and get/set method we can create it
+	*you have to use convention of _ in front of property name - making is known to developer that this property is not directly accessible and used only via get/set accessors.
+	
+Private:--
+	*this is a new feature and is not very frequently used.
+	*you can name any proptery with #
+	
+Promise finally() method:-- The finally() method is always executed whether the promise is fulfilled or rejected. In other words, the finally() method is executed when the promise is settled.
+
+promise
+    .then(result => {
+        // process the result
+    })
+    .catch(error => {
+        // handle the error
+    })
+    .finally(() => {
+        // clean up the resources
+    });
+	
+Promise API:--
+Promise.all:--Parallel execution of async functions - only work when all promises are fullfiled
+
+Promise.all([
+    asyncFx(1,2),
+    asyncFx(2,3),
+    asyncFx(5,6)
+]).then(results=>{
+    console.log(results) // array of resolved value, same order
+})
+
+Promise.allSettled:--Parallel execution of async functions - only work when all promises are fullfiled or rejected
+
+Promise.allSettled([
+    asyncFx(1,2),
+    asyncFx(2,3),
+    asyncFx(5,6)
+]).then(results=>{
+    console.log(results) // array of resolved/reject objects, same order
+})
+
+Promise.race:--Parallel execution of async functions - works when any one of promises are fullfiled or rejected
+
+Promise.race([
+    asyncFx(1,2),
+    asyncFx(2,3),
+    asyncFx(5,6)
+]).then(results=>{
+    console.log(results) // value of first settled (resolved/rejected) promise
+})
+
+Promise.any:--Parallel execution of async functions - works when any one of promises are fullfiled
+
+Promise.any([
+    asyncFx(1,2),
+    asyncFx(2,3),
+    asyncFx(5,6)
+]).then(results=>{
+    console.log(results) // value of first fullfilled promise
+})
+
+Promise.reject:--created already promise which gets rejected just after creation
+
+let promise = Promise.reject('error');
+
+
+Promise.resolve:--created already promise which gets resolved just after creation
+
+let promise = Promise.resolve(123);
+
+From Code Improve
+-----------------
+console.time('checkTime');
+console.warn('Hello');
+console.assert(1>2, 'noooo');
+console.error('msg ID');
+var data = { name: 'Goku', empId: 'CS032'};
+console.table(data)
+console.timeEnd('checkTime');
+
+Error handling:--(try, catch, throw, finally)
+try {
+	let x = 11;
+	if(x == 10) throw "Not Valid";
+	console.log(x);
+}catch(err) {
+	console.log('catch called:--', err);
+}
+
+finally {
+	console.log('Whatever happend, I will called');
+}
+
+JavaScript debugging:-
+conditional debugging, watch
+
+Note:--Event propogation-->
+
+	event.stopPropagation(); // yha se aage propogation nhi hoga.
+	event.stopImmediatePropagation(); // same element p same event k liye baki listners stop ho jayenge.
+	
+Race vs any in promise:- race m jo promise jaldi s resolve ya reject hota h wo promise show krta h jabki any m jo bhi promise jaldi s sirf resolve(fulfilled) hoga to us promise ka result show krega aur ager sabhi reject ho jayenge us case m reject ka error show krega.
+
+Pure Function:-- copy s padhna h.
+
+BOM(Browser Object Modal):-- 
+	1. Navigator
+	2. History
+	3. Location
+	4. Screen
+	
+Tech Gun
+------------
+prompt('msg', defaultValue) // show a message, input text. it returns the text on ok or,if cancel button or Esc is clicked, null.
+confirm('msg') // for confirmation , return true or false
+
+Removing Event Listener--
+element.removeEventListener('event', listner);
+
+tech gun
+yahoo baba
+code improve
+coder dost 
+harshit vashist

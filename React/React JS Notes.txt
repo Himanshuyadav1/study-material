@@ -1,0 +1,102 @@
+1. function component m ek parent tag hona chahiye.
+2. fragment (<></>) use krna chahiye parent tag k liye jisse faltu k div tag na bane.
+3. component ko humesa capital letter s start krna h.
+4. component ko humesa close krna chahiye mtlb ki close tag use krna chahiye
+5. component m style attribute m object pass krna hota h expression k tarah( {{backgroundColor: 'red'}} ).
+6. component props m number ko pass krne k liye expression({ }) ka use krna padta h.
+7. props ko component m destructer bhi kr sakte h.
+function Component(props) {                    | function Component({name}) {
+	return (<p>Name: {props.name}</p>)   	   | 	return (<p> Name: {name} </p>)
+}											   |}
+8. component k props m default value bhi pass kr skte h jisse koi value na mile to default value use ho jaye
+	function Component({name, age=25}) {}
+9. Consuming children component
+<Component>
+	<Demo /> -->childrenR
+</Component>
+
+function Component({children}) {
+	return (<div> {children} </div>);
+}
+10. Refactoring:- jab code bada hone lage ya complex hone lage to usko sahi s arrange krne ko "Code Refactoring" kahte h.
+11. short-circuit: ternary operator ka short cut h (var a = true && 'hi' );
+12. custom component m onClick event ka handler function nhi chalega balki ye handler function ko pass(props) krne m help krta h aur onClick sirf normal html tag p hi run krega React m.  
+13. React prints your console. log() statements twice when your App component is wrapped in a StrictMode component in your index. js file. One way to resolve the issue is to remove the StrictMode wrapper.
+	Solution:-https://bobbyhadz.com/blog/react-why-is-console-log-printed-twice#:~:text=React%20prints%20your%20console.,to%20remove%20the%20StrictMode%20wrapper.
+14. Props read-only hote h.
+15. React keval unhi variable ko change krta h jo state variable hote h.
+16. kisi component ki state change hone p component re-render hota h.
+17. const [variable, setVariable] = useState(value);
+
+		handleClick() {
+			setVariable(variable + 1); // aise case mai aisa nhi hoga ki ek hi click mai
+			setVariable(variable + 1); // ye variable ki value ko 4 kr de. ye saare batch hote h
+			setVariable(variable + 1); // aur sabhi setVariable run hone k baad hi component re-render
+			setVariable(variable + 1); // hoga. aur isme sabhi variable ki value(snapshot value) same rahegi particular click k liye.
+		}
+		
+		handleClick() {
+			setVariable(variable => variable + 1); // (0 => 0 +1) // jab updater functional style mai likhte 
+			setVariable(variable => variable + 1); // (1 => 1 +1) // hai to ye queue mai chala jata h aur next 
+			setVariable(variable => variable + 1); // (2 => 2 +1) //update k liye previous update s value 
+			setVariable(variable => variable + 1); // (3 => 3 +1) //milti hai.
+		}
+		
+18. react uni directional hota h.
+19. lifting state up.
+20. state ko directly change nhi krk uski copy bna kr usko change krna chahiye.
+21. useEffect hook se mount, update aur un-mount perform kr skte h.
+22. useEffect ko us state k liye use kr sakte h jiske wajah s infinite loop chalte h.
+23. useEffect k ander ka function dependency list k change hone p run krta h.
+	useEffect(()=>{ console.log("hello") }, [dependency list]);
+
+24. prop driling ka mtlb hota h ki jab ek parent component se props kae level niche k child ko pass krne k liye bich m aane waale sabhi component ko prop pass krna padta h.
+25. useReducer hook s hum redux ki tarah thoda manage kr k apne code ko manage kr skte h.
+26. useReducer hook 2 argument leta h. 1. reducer function, 2. data.
+27. useReducer hook return krta h array jisme 2 items hote h 1. state 2. dispatch.
+28. dispatch function ek action object as argument leta h.
+29. action object m 2 property hoti h 'type' aur 'payload'.
+30. reducer function 2 argument leta h 1. state(previous), 2. action.
+31. const [state, dispatch] = useReducer(reducerFunction, data);
+	function reducerFunction(state, action) {
+		switch(action.type) {
+			case 'ADD': 
+				return modified state;
+			default:
+				return state;
+		}
+	}
+	
+	dispatch({type: 'ADD', payload: 1});
+32. Context API k liye createContext(value) function ka use krte h jisme ek value pass krna hota h as a argument.
+33. context api ka use krne k liye useContext() hook ka use krna hota h aur ye createContext ka return as a argument leta h.
+34. top level p context ka use krk uske niche kisi bhi level p directly access kr skte h.
+35. Provider ka use krk global level p context ko use krke jis level k liye context use krna chahte h kr skte h us component ko provider se wrap krk. aur value attribute s dkoi value pass kr skte h.
+36. <ThemeContext.Provider value={1}><App /> </ ThemeContext>
+37. custom hook bnane k liye use word use krna padta h.
+38. jab kisi chiz ka record rakhna ho par display nhi krana ho UI p to useRef hook use krte h.
+39. useRef k variable ki value change hone p ye component ko re-re-render nhi krta h bas ye value ko store krk rakhta h.
+40. useRef humesa object deta h aur uski initial value us object k current naam ki property m.
+41. DOM ka reference react m use krne k liye useRef hook krte h.
+42. jis html tag ka reference chahiye uske ref prop m useRef se jo value return hua h uske assign kr dete h. 
+43. const inputRef = useRef(null);
+	<input name='name' type='text' ref={inputRef}> //inputRef.current m is tag ka reference hoga.
+44. DOM ko load hone k turant baad kuch chalana h to uske liye useEffect use krna chahiye. mostly side effect.
+45. useCallback se function ko memoized karte h aur useMemo s function ki return value ko memoized krte h.
+46. useMemo m 2 part hote h jisme 1st calculation function(arrow function) hota h aur dusra dependency array.
+47. dependency array m wo element hote h jo react component k ander hote h aise element ko reactive element kahte h aur jo react component k bhar hote h unhe non-reactive element kahte h aur is case m dependency array m unko add krne ki jarurt nhi hoti.
+48. hooks humesa hi react component k bahar ki access provide kr deta h.
+49. useCallback k bhi 2 part hote h 1st function aur 2nd dependency list.
+50. useCallback component k re-render hone p function ko re-declair nhi hote deta h.
+51. component ko memoized krne k liye memo ka use krte h. component ko wrap kr dete h memo m.
+52. application k performance ko check krna ho to profiler tab(developer tool) s check kr skte h ya fir profiler tag s.
+53. useLayoutEffect ye render hone s pahle run krta h.
+54. computer science m jab 2 chizo ko ek saath run krte h to unhe concurrency kahte h.
+55. useDeferredValue(value) hook us case m use krte h jab kisi value k new value aane m time lage jisse UI hang ho usse bachne k liye is hook ka use krte h. ye jab tak new value nhi aata h tab tak purani value s hi kaam chalata h.
+56. useTransition() hook return m array deta h jisme 2 item hote h 1st isPending aur 2nd startTransition.
+57. jab ye pta ho ki kis state change k wajah s hang ho rha h UI uska setSate startTransition k ander krne s UI hang nhi hota h.
+58. useId() hook unique id generate krne k liye use krte h iska use key m nhi krte h.
+59. lazyloading ka mtlb h ki koi code tab load ho jab wo render hone waala ho UI p.
+60. react m lazyloading krne k liye Suspense component ka bhi use krna padta h.
+61. createPortal use krte h jab hume kisi component ko react ki boundary s bhar use krna ho.
+62. useEffect m cleanup function tab jarur likhna chahiye jab useEffect k chalne ka chance bhot jyada ho. isliye cleanup function likhna chahiye ki pichli chize clear ho jaye.
