@@ -978,7 +978,7 @@ let newPerson = Object.assign({}, person)
 let person =  {name:'john'}
 let newPerson = {...person} 
 
-But problem which these is they just create a copy of properties of that object , but not creating a copy of their references also.
+But problem with these is they just create a copy of properties of that object , but not creating a copy of their references also.
 
 let addressObject = { city: 'delhi', state: 'delhi' }
 
