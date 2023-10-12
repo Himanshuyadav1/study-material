@@ -1,0 +1,133 @@
+1.	Path module m join method k last parameter m (..) likhne per ye second last parameter ko 
+	path m include nhi karega matlb ki directory show krega. aur ye jo path deta h wo environment
+	(window, mac)k hisab s deta h.
+	path.join('/search','label','course/python','oop'); // \search\label\course\python\oop
+	path.join('/search','label','course/python','oop','..'); // \search\label\course\python
+	path.join('/search','label','course/python','oop','..','..'); // \search\label\course
+	
+2.	for using module pattern in nodejs there are 2 ways. but in this condition we can't use 
+	require(), __filename, __dirname.
+	a.	change the file extension .js--> .mjs
+	b.	add "type": "module" in package.json 
+	
+3.	FS(file system) --Promise API
+	Creating Directory - Path is required to be there
+	try{
+		await fs.mkdir('c:\\nodejs\\ch6\\test\\demo')
+		console.log('Folder created...');
+	}catch(error) {
+		console.log(error);
+	}
+	
+	Creating Directory - Path is not required to be there
+	await fs.mkdir('c:\\nodejs\\ch6\\test\\demo', { recursive: true })
+	
+4.	FS -- callback API
+	Creating Directory - Path is required to be there
+	fs.mkdir('c:\\nodejs\\ch6\\test\\demo', error => {
+		if(error) throw error;
+		console.log('Folder created...');
+	});
+	
+	Creating Directory - Path is not required to be there
+	fs.mkdir('c:\\nodejs\\ch6\\test\\demo', { recursive: true }, error => {
+		if(error) throw error;
+		console.log('Folder created...');
+	});
+	
+5.	FS -- Synchronous API
+	Creating Directory - Path is required to be there
+	fs.mkdirSync('c:\\nodejs\\ch6\\test\\demo');
+	
+	Creating Directory - Path is not required to be there
+	fs.mkdirSync('c:\\nodejs\\ch6\\test\\demo', { recursive: true });
+	
+6.	For removing directory that directory should be empty.
+7.	import * as os from 'os' or import os from 'os'
+8.	URL is available in global object that means we don't need to import.
+	import { URL } from 'url';
+	
+9.	import EventEmitter from 'events';
+// const EventEmitter = require('event');
+
+// Creating class 
+// class MyEmitter extends EventEmitter {}
+
+// Creating Object
+const myEmitter = new EventEmitter();
+let  c = 0;
+// Register Event Listner
+myEmitter.on('myEvent', () => {
+    console.log(++c);
+});
+
+// Trigger Event
+myEmitter.emit('myEvent');
+myEmitter.emit('myEvent');
+myEmitter.emit('myEvent');
+
+10.	import http from 'http';
+
+const PORT = process.env.PORT || 8000;
+const HOST = process.env.HOST || 'localhost';
+
+const server = http.createServer((req, res) => {
+    res.setHeader('Name', 'Himanshu');
+    res.end('Hello from server');
+});
+
+server.listen(PORT, HOST, () => {
+    console.log('Your server is running at http://localhost:8000');
+});
+
+11.	nodemon ko jab dev dependency m install krte h to us case m hume package.json file m script 
+	k through run krna padta h.
+	npm install --save-dev nodemon or npm install -D nodemon
+	script {
+		"dev" : "nodemon index.js"
+	}
+	
+12.	HTTP Module Property:-
+	// Resquest
+	req.url;
+	req.method;
+	
+	// Response
+	res.statusCode = 202;
+	res.statusMessage = 'Good';
+	res.setHeader('Content-Type': 'text/plain');
+	res.writeHead(202, 'Good', { 'Content-Type': 'text/plain' }) // for all property
+	res.end('Response from server');
+	
+13.	Response m content kis type ka mila h ye check krne k liye network tab m content-type
+	check krte h.
+	
+14.	import dns from 'dns';
+
+dns.lookup('facebook.com', ( err, address, family) => {
+    if(err) throw err;
+    console.log(address);
+    console.log(family);
+});
+
+dns.resolve('facebook.com', 'MX' , (err, records) => {
+    if(err) throw err;
+    console.log(records);
+});
+
+15. // Import & Export Module - Common JS
+ student.js
+const nm = 'Goku';
+const marks = (math, sci) => {
+    console.log(math + sci);
+}
+
+module.exports = { nm, marks };
+
+index.js
+const {nm , marks} = require('./student.js');
+console.log(nm);
+marks(10, 20);
+
+// Import & Export Module - Module JS
+isko waise hi krna h jaise ki JS m krte h.

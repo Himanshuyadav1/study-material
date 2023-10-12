@@ -1,0 +1,137 @@
+1.	String Pattern Path(Routing)
+	app.get('/ab?cd', (req, res) => {
+		res.send("This route path will match acd and abcd");
+	})
+	
+2.	Regular Expression Path(Routing)
+	app.get(/a/, (req, res) => {
+		res.send("This is a")
+	})
+	
+3.	More than one callback
+	app.get('/cb2', (req, res, next) => {
+		console.log("First CB");
+		next();
+	}, (req, res) => {
+		console.log("Second CB");
+		res.send("More than one callback example!!")
+	});
+	
+4.	An Array of callback 
+	const cb1 = (req, res, next) => {
+		console.log("First callback");
+		next();
+	};
+	
+	const cb2 = (req, res, next) => {
+		console.log("Second callback");
+		next();
+	};
+	
+	const cb3 = (req, res) => {
+		console.log("Third callback");
+		res.send("An Array of callback example");
+	};
+	
+	app.get('/cbexp3', [cb1, cb2, cb3]);
+	
+5.	Router ka use code ko clean aur maintain krne k liye banate h.
+6.	app.param('id', (req, res, next, id) => {
+		console.log(`Called only once ID: ${id}`);
+		next();
+	});
+	app.get('/user/:id', (req, res) => {
+		res.send('Response OK');
+	})
+	// Array of route parameter
+	app.param(['page', 'id'], (req, res, next, value) => {
+		console.log(`Called only once : ${value}`);
+		next();
+	});
+	app.get('/user/:page/:id', (req, res) => {
+		res.send('Response OK');
+	})
+7.	Static Files ko routes k uper load krwana hota h.
+8.	Serving only specific directory
+	app.use('/css', express.static(join(process.cwd(), 'public/css'))); 
+9.	Template engine ko jab express m use krte to hume ye set krna hota h ki kis directory m
+	hum template files ko rakh rhe h ager views naam k folder m template file h 
+	to hume isko set krne ki jarurat nhi hoti h kyuki ye bydefault set hota h par template file
+	views naam k folder m na ho kr kisi aur naam k folder m h to hume isko set krna hota h.
+	app.set('views', './views');
+10.	Db connection m jo options provide krte h usme authSource m us db ko mention krte h jisme user create
+	hua ho.
+11. Model m file k first letter capital rakhna ka naming convention hai.
+12.	Retrieve all document with specific fields
+	const result = await studentModel.find().select('name age'); // Include
+	const result = await studentModel.find().select(['name', 'age']); // Include
+	const result = await studentModel.find().select({ name: 1, age: 1 }); // Include
+	
+	const result = await studentModel.find().select('-name -age'); // Exclude
+	const result = await studentModel.find().select(['-name', '-age']); // Exclude
+	const result = await studentModel.find().select({ name: 0, age: 0 }); // Exclude
+	
+	const result = await studentModel.find({}, 'name age');
+	
+13.	Retrieve limited document
+	const result = await studentModel.find().limit(4) // show only 4 document
+	const result = await studentModel.find({}, null, { limit: 4 }) // show only 4 document
+	
+14.	Retrieve skip document
+	const result = await studentModel.find().skip(1) // skip 1st document
+	const result = await studentModel.find({}, null, { skip: 1 }) // skip 1st document
+	
+15.	count documents
+	const result = await studentModel.find().countDocuments();
+	
+16.	sort documents
+	const result = await studentModel.find().sort({ age: 1 }); // ascending order based on age
+	const result = await studentModel.find().sort({ age: -1 }); // descending order based on age
+	
+17.	comparison query operator
+	const result = await studentModel.find({ age: { $eq: 25 } });
+	const result = await studentModel.find({ age: { $gt: 25 } });
+	const result = await studentModel.find({ age: { $gte: 25 } });
+	const result = await studentModel.find({ age: { $lt: 25 } });
+	const result = await studentModel.find({ age: { $lte: 25 } });
+	const result = await studentModel.find({ age: { $ne: 25 } });
+	const result = await studentModel.find({ age: { $in: [21, 25] } });
+	const result = await studentModel.find({ age: { $nin: [21, 25] } });
+	
+18.	logical query operator
+	const result = await studentModel.find({ $and: [{ age: 27 }, { fees : 6500.4} ] });
+	const result = await studentModel.find({ $or: [{ age: 27 }, { fees : 6500.4} ] });
+	const result = await studentModel.find({ $and: [{ age: { $gt: 25 } }, { fees : 6500.4} ] });
+	const result = await studentModel.find({ $or: [{ age: { $gt: 25 } }, { fees : 6500.4} ] });
+	const result = await studentModel.find({ age: { $not: { $gt: 25 } } });
+	const result = await studentModel.find({ $nor: [{ age: 27 }, { fees: 6500.4 }] });
+	
+19.	Update document m jo options object m returnDocument hota h wo bydefault before hota h jiska matlb
+	hota h ki update function update hone s pahle ki value return krega aur iski value ko after bhi set
+	kr sakte h jisse update function update hone k baad updated value return krega.
+	const result = await studentModel.findByIdAndUpdate(id, {name: 'Goku'}, {returnDocument: "after"});
+
+20.	Sensetive data cookie m nhi rakhte hai jaise password. session cookie secure hota h persistent cookie
+	se kyuki browser close krne p session cookie delete ho jata h.
+	
+21.	Difference between Session and Cookie
+	a.	Cookie client m store hota h aur session server m store hota h.
+	b.	Cookie mkam data rakh sakte h aur session m jyada data rakh skte h.
+	c.	Cookie thoda insecure hota h aur session jyada secure hota h.
+	d.	Cookie m sensetive(password) data nhi rakh skte h aur session m sensetive data rakh skte h.
+	
+22.	session ko mongoDB m store krne k liye connect-mongo package ka use krna padega.
+	https://www.npmjs.com/package/connect-mongo
+	
+23.	Password ko hash krne k liye bcrypt package ka use krte h.
+24.	JSON data ko use krne k liye express k json middleware ko use krna hota h. app.use(express.json())
+25.	.env file banane k liye dotenv package ka use krna hota h aur dotenv.config() call krna hota h
+26.	jb data create krte h to status code 201 set krna chahiye.
+27.	jb data delete krte h to status code 204 set krna chahiye.
+
+Notes: --
+
+1.	Mongoose also supports validation for update operations. Update validators are off by default - 
+	you need to specify the runValidators option.
+	To turn on update validators, set the runValidators option for update.
+	await StudentModel.findByIdAndUpdate( id, req.body, { runValidators: true });

@@ -1,0 +1,17 @@
+1.	why--> makes easy to manage &  build complex FE.
+2.	Vite ek bundler hai jo bhot saari js file ko combile krk ek file mai krk de deta hai.
+3.	package.json file m dependencies m "web-vitals" application ki performance check krne k liye hota h.
+4.	package-lock.json m ye lock ho jata h ki ye inhi dependencies version p chalega.
+5.	create-react-app s jab react ka project bnate h to react-scripts hi script tag add krti h index.html m.
+6.	component ko function ki tarah call bhi kara sakte h aur ye sahi se work krega.
+7.	React m curly braces k ander evaluvated expression likhte hai
+8.	Hydration ka matlab h ki jab web page m javaScript inject ho jati h to usi ko Hydration kahet h.
+9.	https://github.com/acdlite/react-fiber-architecture
+10.	ReactDOM.createRoot() dom(Virtual DOM) like structure taiyar krta hai.
+11.	Virtual DOM ko update krne k liye React fiber algorithm use krti h.   
+12.	reconciliation - The algorithm React uses to diff one tree with another to determine which parts need
+	to be changed.
+13.	jab kisi bhi chiz ka jab referencee lena hota h tab useRef hook use krte h.
+14.	window object hum react m use kr lete h directly kyuki ye client side render hota h.
+15.	ager koi file ui s related tags return nhi kr rhi h to usko .js se save krna chahiye na ki .jsx s.
+16.	jab bhot saare components ho to us case m index.js file k through un components ko export krna chahiye.

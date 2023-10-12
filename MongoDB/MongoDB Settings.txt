@@ -1,0 +1,8 @@
+Data Directory:-C:\Program Files\MongoDB\Server\7.0\data\
+Log Directory:-C:\Program Files\MongoDB\Server\7.0\log\
+
+MongoDB Shell:-C:\Program Files\mongosh\
+
+first start database server
+opeb cmd and run mongod -version
+then mongosh will work

@@ -1,0 +1,234 @@
+Code step by step:-https://www.youtube.com/watch?v=nuxZ8k4B2Dk&list=PL8p2I9GklV45nAsZW0YYkpFSaUEJr8q4J
+
+1. basic routing k liye 3 component chahiye react router dom se - BrowserRouter, Routes, Route.
+2. jha tak routing chahiye un sabhi component ko BrowserRouter k ander rakhna hoga.
+3. BrowserRouter ka child Routes hoga aur uska child Route hoga.
+4. Route m 2 basic props add krne honge 1. path aur 2. element
+5. path mai path assign hoga jis route p component show krna h aur element m component assign krna hoga.
+
+import {BrowserRouter, Routes, Route} from 'react-router-dom'; 
+  <BrowserRouter>
+	<Routes>
+	  <Route path='/' element={<Home />} />
+	  <Route path='/about' element={<About />} />
+	</Routes>
+  </BrowserRouter>
+
+6. link add krne k liye Link component chahiye react-router-dom se.
+7. Link m ek props chahiye hota h 'to' jisme path assign krna hota h.
+
+import { Link } from 'react-router-dom';
+			<>
+            <Link to='/'>Home</Link>
+            <Link to='/about'>About</Link>
+			</>
+
+8. react m link k liye anchor tag isliye use nhi krte h kyuki ye use krne p routing to ho 
+	jayegi par sath m page refresh bhi ho jayega jisse SPA ka concept nhi rah jayega.
+9. page not found page show krne liye Route m path props m '/*' value assign krke element 
+	m Pagenot found ka component assign krna hoga. Ye Route ko sbse last m likhna chahiye.
+	kyuki uske pahle k jo path h usse match na ho.
+
+<Route path='/*' element={<Page404 />} />
+
+10. page not found page show krne ki jagah ager redirect krna ho to Route k element props m 
+	Navigate component assign krke uske to props m redirected page ka path dena hoga.
+
+import {Navigate} from 'react-router-dom';
+<Route path='/*' element={<Navigate to='/' />} />
+
+11. dynamic routing with params:- isme kisi ek params k through ek component p dynamic data
+	show kr skte h. iske liye Route component k path props m jo value assign kste h usme
+	last m '/:paramName' add kr dete h. aur jo common component hoga usme usme useParams
+	hook use krte h jo react-router-dom s milta h. useParams() hook paramNames ka object
+	return krta h.
+<Route path='/user/:name' element={<User />} />
+
+<Link to='/user/Goku'>Goku</Link>
+<Link to='/user/Gohan'>Gohan</Link>
+
+import { useParams } from 'react-router-dom';
+function User() {
+	const {name} =	useParams();
+}
+
+12. Link and NavLink style:- Link component p className ya style apply nhi hota h isliye
+	uske jagah hum NavLink ka use krte h.
+13. Active link ko style krne k liye 2 tarike hai.
+	1. react-router-dom apne aap hi NavLink m active class DOM m add kr deta h. hum directly
+		us class ko style de skte h. 
+		Note:--active class k alawa (aria-current="page") attribute add kr deta h.
+	2. NavLink m style props k through bhi style de skte h. isme ek callback function k
+		through style dena hota h. jisme ek isActive object ki property hoti h.
+	
+	<NavLink style={({isActive}) => {return {color: isActive && 'skyblue'}}}>Home</NavLink>
+	
+14. query Params ki value ko set aur get karne k liye useSearchParams hook ka use krte h. 
+15. useSearchParams() return m array deta h jiska 1st item se query params ki value get kr
+	sakte h aur 2nd item se query params ki value set kr skte h.
+16. query params ki value get krne k liye searchParams.get(queryParamsName).
+17. query params ki value set krne k liye setSearchParams(obj) obj m value set krte h.
+
+http://localhost:5173/filter?name=Ilu&city=UK
+
+import { useSearchParams } from 'react-router-dom';
+
+function Filter() {
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    const name = searchParams.get('name');
+    const city = searchParams.get('city');
+    return (
+        <>
+            <h3>Name: {name} </h3>
+            <h3>Current City: {city}</h3>
+            <input type="text" onChange={e=> setSearchParams({city: e.target.value, name: 'Himanshu'})} />
+            <button onClick={() => setSearchParams({name: 'Goku', city: 'Varanasi'})}>Change name</button>
+        </>
+    )
+}
+
+18. ek page s dusre page p navigate hone k liye useNavigate hook use krte h. jab button p
+	click krk ya function ko call krk ya conditional navigation krna ho tb is hook ka 
+	use krte h.
+
+import { useNavigate } from 'react-router-dom';
+
+function Home() {
+    const navigate = useNavigate();
+    function navigation(url) {
+        navigate(url);
+
+        // conditional navigation
+        // let x = false;
+        // if(x){
+        //     navigate('/about');
+        // } else {
+        //     navigate('/filter');
+        // }
+    }
+    return (
+        <>
+            <button onClick={() => navigation('/about')}>About Page</button>
+            <br />
+            <button onClick={() => navigation('/filter')}>Filter Page</button>
+        </>
+    )
+}
+
+19. Nested routing k liye jis Route k ander nest krna h uske child m Route mention krte h.
+20. jis page p nested route ka page show krna h wha p <Outlet /> component use krte h. parent
+	component m jis jagah nested component show krna h wha p <Outlet /> component use krna hoga.
+
+<Route path='/contact/' element={<Contact />} >
+  <Route path='channel' element={<Channel />} />    
+  <Route path='company' element={<Company />} />    
+  <Route path='other' element={<Other />} />    
+</Route>
+
+21. ek route se durse route p jaane p jo bhi information milti h usko useLocation() hook
+	se access kr skte h. ye ek object return krta h. jisme hash, key, pathname, search, 
+	state property hota h.
+	import { Link, useParams, useLocation } from 'react-router-dom';
+	
+	const location = useLocation();
+    console.log(location); // {hash, key, pathname, search, state}
+	
+	<li><Link to='/user/Goku' state={{name: 'Himanshu', age: 33}}>Goku</Link></li>
+	
+22. Protected route banane k liye ek Protected component bnana hoga aur usme as a props 
+	component pass krna hota h usko protected bnane k liye.
+	
+	<Route path='/' element={<Protected Component={Home} />} />
+	
+	function Protected({Component}) {
+    const navigate = useNavigate();
+    useEffect(() => {
+        let login = localStorage.getItem('login');
+        if(!login) {
+            navigate('/login');
+        }
+    })
+
+    return (
+        <>
+           <Component />
+        </>
+    )
+}
+
+Interview Questions:--
+
+1.	Where we can use react routing?
+	* onWeb
+	* on server-side with NodeJS
+	* with React-Native
+	
+2.	Link vs NavLink
+	* With NavLink we can add custom style and classes
+	* With NavLink we can add active link feature
+	* Style is not recommened with Link
+	
+3.	What is Nested Routes
+	* Make Route inside a Route
+	* We can make tabs or pages inside a Page
+	* Multiple Nested Routes also possible
+	
+4.	How to Add 404 page?
+	*<Route path='/*' element={<Page404 />} />
+	*import {Navigate} from 'react-router-dom';
+	 <Route path='/*' element={<Navigate to='/' />} />
+	 
+5.	Some Important Hooks
+	*useParams
+	*useSearchParams
+	*useLocation
+	*useNavigate
+	
+6.	useParams vs useSearchParams
+	*useParams- Use to get dynamic routing value
+	e.g.- http://localhost:5173/user/100
+		  http://localhost:5173/user/101
+		  100, 101 is dynamic values here
+	
+	*useSearchParams- Use for get query params
+	e.g.- http://localhost:5173/user?id=100
+	id=100 is query params here
+	
+7.	Redirect on button click
+	*useNavigate hook ka use krk
+	
+8.	anchor tag vs Link
+	*No refresh with Link
+	*Refresh with anchor tag
+	
+9.	Hash Route vs Browser Route
+	*Mostly we use Browser Route e.g.: http://localhost:5173/user
+	*Hash Route used for hiding route from the server  e.g.: http://localhost:5173#user
+	
+Geeky Shows
+
+1.	BrowserRouter application ko browser k url se connect krta h. 
+rafce -->for creating function component
+2.	NavLink se redirect krte time ager nhi chahte h koi history maintain ho browser m to replace
+	attribute ka use krna chahiye.
+3.	useNavigate hook ka use kr k ho navigate variable bnate h usme path k alawa number value bhi
+	bhej sakte h. 
+	Ex:-	navigate(1): --> history stack m forward(aage waale) page p jayega
+			navigate(2): --> history stack m doubl forward(aage waale) page p jayega
+			navigate(-1): --> history stack m backward(previous waale) page p jayega
+			
+import { useNavigate } from 'react-router-dom';
+
+function Home() {
+    const navigate = useNavigate();
+    navigate(1);
+	
+4.	nested routing m ager child m parent k path pr koi component show karna chahte h to index
+	attribute ka use kr skte h.
+	
+	<Route path='/contact' element={<ContactLayout />} >
+	  <Route path='channel' element={<Channel />} />    
+	  <Route path='company' element={<Company />} />    
+	  <Route path='other' element={<Other />} /> 
+	  <Route index element={<Contact />} />    
+	</Route>

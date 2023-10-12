@@ -1,0 +1,31 @@
+1.	DB humesa dusre continent m hota hai.
+2.	git ssh setup window configuration for ssh setup
+3.	tool-chain ya bundler(vite, parcel, create-react-app) sabhi js file ko lekr usko HTML CSS JS m convert
+	kr deta h.
+4.	CORS-policy ka matlab h ki frontend s jo request ho rha h server p indono ka url aur port same hona
+	chahiye. ye jab same nhi hota h tabhi CORS-policy ka error aate h. isko solve krne k liye backend p
+	un url ko allow krna hota h. whitelisting krna hota h. jisse server ko lage ki request same server
+	se hua h. (server sirf unhe allow krta h jinko wo apna family member manta hai.)
+5.	backend p jo api banti h usme kuch standard follow krna hota h jisme ek hai ki sabhi api ko /api s 
+	start krte h.
+6.	FE side m request send krne k liye full url na de kr standard k hisab s routes mention krte h jisse
+	jab production m isko deploye krte h to ye apne aap domain aur port le leta h jaise setting hogi.
+	aur routes ko jab standard k hisab s likhte h to ye access nhi ho pata h kyuki isko full url nhi 
+	milta h aur isko sahi krne k liye proxy set krna hota h jisse FE s request access ho paye.
+7.	proxy setting ka configuration depend krta h ki kaise react app bnaya h create-react-app s bnaya hai
+	to uski setting package.json file m krte h aur vite s bnaya h to uski setting vite.config.js file m krte
+	hai. 
+8.	jab proxy set krte hai to wo /api k pahle append to hoti hi hoti hai par proxy k wajah se server ko ye 
+	lagta h ki jo FE k side se jo url request aa rhi h wo server ko lagega ki wo url origin server k side 
+	se hi hue hai matlab ki same server s hi url request aa rhi h. is case m CORS-policy ka issue nhi
+	hota hai.
+9.	ye bad practice hota h jab FE side m build command run krk jo dist folder banta h usko backend folder
+	m move krk sirf backend ko hi deploye kr dete h isme issue ye hota h ki jab bhi hum FE m change krenge
+	to wo change reflect nhi hoga. wo changes ko reflect krne k liye fir s FE folder m build command run
+	krk new dist folder banayenge aur fir jo dist folder banega usko BE folder m rakhe hue old dist folder
+	se change kr denge.
+10.	Race condition :- jab 2 ya usse jyada async resources kisi ek hi state ko modify krte hai to ye 
+	confirm nhi hota h ki kab kon sa resource ja kr state ko change kr de to isko solve krne k liye hume
+	ek extra flag use krna chahiye jisse ki jab bhi koi resource state ko change kre to wo state ko block
+	kr le jisse ki koi dusra resource usko us time modify na kr paye.
+	

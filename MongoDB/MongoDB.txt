@@ -1,0 +1,53 @@
+1.	show dbs--> showing the db
+2.	use dbName --> switching to dbName if it is not present it will created and switched
+3.	db tab tk nhi dikhta h jab tk koi collection present na ho db m
+4.	db --> showing current dbName
+5.	db.dropDatabase() --> removing database
+6.	show collections --> showing the collections
+7.	db.collectionName.insertOne({"name": "Goku", "age": 28}) --> it will create collection with
+		collectionName and create one document.
+8.	db.createCollection(
+	"teacher", 
+	{
+		validator: {
+			$jsonSchema: { 
+				bsonType: "object",
+				required: ["name", "age"],
+				properties: {
+					name: {
+						bsonType: "string",
+						description: "Must be a String and is required"
+					},
+					age: {
+						bsonType: "int",
+						description: "Must be a Integer and is required"
+					}
+				}
+			}
+		}
+	})
+	--> above command will create collection with teacher name also validator rule.
+	
+9.	db.getCollectionInfos({ name : "collectionName"}) --> showing validation rule for collection.
+10.	db.collectionName.drop() --> removing collection
+11.	db.collectionName.find() --> retrieving all document
+12.	db.collectionName.insertOne(object) --> creating one document
+13.	db.collectionName.insertMany([ objects ]) --> creating many document
+14.	db.collectionName.find().pretty() --> showing all document in pretty way
+15.	db.collectionName.findOne() --> retrieving one document
+16.	db.collectionName.find().limit(number) --> limiting the retrieving of documents as mentioned 
+	number
+17.	db.collectionName.find({age: 27}) --> retrieving document based on field
+18.	db.collectionName.updateOne({name: "Goku"}, {$set: {name: "Gohan", age: 22}})
+	--> update single document whose name "Goku"
+19.	db.collectionName.updateMany({age: 28}, {$set: {name: "Himanshu"}}) --> update all document
+		whose age is 28
+20.	db.collectionName.deleteOne({age: 26}) --> delete single document whose age is 26
+21.	db.collectionName.deleteMany({age: 26}) --> delete all document whose age is 26
+22.	quit or exit--> quiting the mongo shell
+
+For User Authentication Authorization and Role (Extra)--
+1.	show users --> showing users
+2.	show roles --> showing roles
+3.	db.createUser({ user: "boss", pwd: "123456", roles: ["root"] }) --> creating super user
+4.	db.dropUser("userName") --> removing the specific user
