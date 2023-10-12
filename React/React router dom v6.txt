@@ -232,3 +232,57 @@ function Home() {
 	  <Route path='other' element={<Other />} /> 
 	  <Route index element={<Contact />} />    
 	</Route>
+	
+Chai aur Code -->https://www.youtube.com/watch?v=VJov5QWEKE4&list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige&index=12&ab_channel=ChaiaurCode
+v6.4
+1.	isme hum BrowserRouter ka use na krke RouterProvider component ka use krk route bna lete h. isme ek
+	router props add krte h jisse routing ho jati h. 
+2.	createBrowserRouter method s router bna kr isko RouterProvider k props m pass kr dete h. ye do tarike
+	se kar skte h.
+3.	Route m ek loader naam ka props hota h jo api s ya DB s data fetch krne m use krte h jab bhi kisi 
+	link p hover krte h to ye fetching start kr deta h aur usko cache m rakhta h isse jo thoda wait krna
+	padta tha useEffect s fetch karane m wo bhi nhi krna padta h. iske liye useLoaderData hook ka use krna
+	padta h.
+	
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <Layout/>,
+//     children: [
+//       {
+//         path: "",
+//         element: <Home />
+//       },
+//       {
+//         path: "about",
+//         element: <About />
+//       },
+//       {
+//         path: "contact",
+//         element: <Contact />
+//       }
+//     ]
+//   }
+// ])
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Layout />}>
+      <Route path='' element={<Home />} />
+      <Route path='about' element={<About />} />
+      <Route path='contact' element={<Contact />} />
+      <Route path='user/:userid' element={<User />} />
+      <Route 
+      loader={githubInfoLoader}
+      path='github' 
+      element={<Github />}
+       />
+    </Route>
+  )
+)
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+)
