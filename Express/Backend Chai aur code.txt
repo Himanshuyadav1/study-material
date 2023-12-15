@@ -23,9 +23,106 @@
 	m move krk sirf backend ko hi deploye kr dete h isme issue ye hota h ki jab bhi hum FE m change krenge
 	to wo change reflect nhi hoga. wo changes ko reflect krne k liye fir s FE folder m build command run
 	krk new dist folder banayenge aur fir jo dist folder banega usko BE folder m rakhe hue old dist folder
-	se change kr denge.
+	se replace kr denge.
 10.	Race condition :- jab 2 ya usse jyada async resources kisi ek hi state ko modify krte hai to ye 
 	confirm nhi hota h ki kab kon sa resource ja kr state ko change kr de to isko solve krne k liye hume
 	ek extra flag use krna chahiye jisse ki jab bhi koi resource state ko change kre to wo state ko block
 	kr le jisse ki koi dusra resource usko us time modify na kr paye.
+
+11. mongoDB m createdAt and updatedAt ager chahiye to schema define krte time schema function k 2nd argument
+	m ek object pass krte h jisme timestamps ko true mention krte hai.
+	const userSchema = mongoose.Schema({}, { timestamps: true });
+12. model bnate time standard practice m model variable name aur model name same dena chahiye.
+	const User = mongoose.model("User", userSchema);
+13.	model bnate time ager image ya other aise chize h to usko buffer format m mongoDB m store kr skte hai
+	but ye mongoDB ko heavy bna skti h isliye aisa nhi krte h balki media ko cloudinary(3rd party) p store 
+	kra lete hai fir usse jo url milta h us url ko mongoDB m store krte h aur model m type String krte hai.
+14.	model m jab ek model ko dusre model ka reference dena ho to ref key m exactly wahi naam use krte h 
+	jo mongoose.model() k first argument m pass krte h.
+	const User = mongoose.model("User", userSchema);
 	
+	createdBy: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User"
+	}
+15. modeling m kuch aise field hote h jiski values ko hum restrict rakhna chahte h ki diye hue options m 
+	se hi koi ek value ho us field ki to enum key m array m wo options provide krte h.
+	status : {
+		type: String,
+		enum: ["PENDING", "CANCELLED", "DELIVERED"],
+		default: "PENDING"
+	}
+16.	app.use() mostly middleware k liye use hota h ya fir configuration k liye use hota h.
+
+Points for Standard Practice for Production grade projets:--
+------------------------------------------------------------------
+
+1.	kabhi kabhi hume sirf empty folders ko git p push krna hota h pr git sirf files ko hi track krta h
+	na ki empty folder ko to aise case m hume empty folder m ek .gitkeep file add krni padti hai jisse
+	git empty folder ko bhi push krne deta h.
+2.	.gitignore file m un file aur folder ko mention krte h jisko git p push nhi krna hota h iske liye
+	gitignore generator hota hai jo projet technology k base p generate kr deta h.
+	https://mrkandreev.name/snippets/gitignore-generator/
+3.	prettier package ko bhi dev dependancy ki tarah use krte h kyuki kisi bhi bade project pe kae
+	developer kaam krte h to sabke code likhne ka tarike alag hota h koi semi colon use krta h koi nhi
+	krta h koi 1 tab use krta h block k baad to koi 2. aise difference s code merge krte time problems 
+	aati h to ye problems na face krna pade uske liye ye package use krte h aur uski setting krni hoti h.
+	jisme 2 file banate h .prettierrc aur .prettierignore. prettierrc m kis type ko quotes use krna hai
+	kitne tab use krne hai aise setting krte h aur prettierignore file m ye mention krta hota h jisme
+	prettier implement nhi krna hota h.
+4.	production m hume IP address ki setting m allow access from anywhere nhi krte h.
+5.	db se connect krne k liye username password chahiye, url chahiye aur Ip address ki setting krni hoti h
+6.	db connect krte time hume try catch block m code likhna chahiye aur async await ka bhi use krna chahiye
+	kyuki database bhot dur hote h to connect krne m time lagta h. db connection k code ko IIFE m bhi 
+	likh skte hai par jyada accha approach hai ki usko separate file m likho aur main file m call krao.
+7.	DB connection k error m hum process.exit(1) se current process ko stop kr skte h.
+8.	dotenv k configuration k liye script m "-r dotenv/config" likhne se ye yahi se pure app m env ka 
+	configuration kr deta h 
+	"dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+	ya sirf main file m import "dotenv/config" likhne s bhi ye configuration ho jata h.
+9.	cors ki bhi configuration krte hai jaise ki origin(FE side ka url), credentials. cors m configuration
+	object lete h.
+	app.use(cors({ origin: url, credentials: true }));
+10.	hum express.json() middleware ka use krte h jisse ki FE side s data receive kr pate aur isko bhi
+	configuration kar skte h. receiving data ko limit kr skte h jisse humara server crash na ho aur ye
+	limit system k hisab s krte h.
+	app.use(express.json( { limit: "16kb" } ));
+11.	url m special characters ki bhi encoding krni hoti h jaise ki url m space ko (%20) se replace
+	kare. iske liye urlencoded middleware use krte h jo express s mmilti h. aur isko bhi configure kr 
+	skte h jisme extended provide krte h jisse object k ander object provide kr skte h aur isme bhi 
+	limit lga skte h.
+	app.use(express.urlencoded( { extended: true, limit: "16kb" } ));
+12.	cookie p crud operation perform krne k liye cookie-parser middleware ka use krte hai.
+13.	database s jab bhi communicate krte h to async await aur try catch ka use krte h to iske liye hum
+	ek utility function bna kar usme function pass krk handle kr skte h.
+14.	API response aur Error handling ko standard bnate h. Error ko standard bnane k liye node api error 
+	ka use krke apna error function likh skte h.
+15.	Jab bhi mongoDB m searching field kisi bhi field m enable krna ho ti Schema m index ko true krte hai.
+	aisa krne se ye optimize kr deta h.
+16.	mongoose m bhi middleware hote h jo schema p use hote hai. jisme se ek pre hai aur ye document k save
+	hone se pahle run hota hai to isme hum password ko hash kr sakte hai. isme ek ye problem h ki ye kisi
+	bhi field k modify hone p run hoga to hume ek check lagana hoga problem ko solve krne k liye ki 
+	password modify ho rha hai ya nhi. pre middleware mai 2nd argument callback function hota h kyuki hume
+	callback function m this keyword ka use krna hota h isliye isme function declaration  ka use krte hai.
+	is pre middleware ko hook bhi kah skte h. ye har baar run hoga jab bhi hum is Schema k through kuch bhi
+	save krenge.
+17.	mongoose m hum custom methods bhi bna sakte hai. schema m methods naam ka object hota h jisme hum
+	apna custom method insert krte hai.
+18.	JWT(JSON Web Token) ek bearer token hai iska matlab ki ye bearer token jiske pass hoga usko data mil
+	jayega. 2 tokens use krte h access token(main token) aur refresh token. refresh token ka expire thoda
+	jyada hota h main token s. refresh token m kam information hoti hai.
+19.	mongoose k schema m hum plugins bhi add kr skte h. project m mongoose-aggregate-paginate-v2 plugin 
+	use kr rhe h.
+20.	file upload k liye multer ka use krke cloudinary p upload krte h. Production m sabse pahle multer ka
+	use krk file ko local server p upload krte h fir local server s cloudinary p upload krte h aisa isliye
+	krte h kyuki cloudinary p upload krte time koi error aaye to file miss na ho jaye. aur jab file
+	cloudinary p upload ho jata h to file ko local server s usko delete(unlink) krte hai.
+21.	multer memory storage bhi deta h file ko store krne k liye but isme isliye nhi krte h kyuki file ki
+	size jyada hue to error aa sakti h. isliye file ko Disk storage m store krte hai.
+22. express k pass file ko handle krne k liye direct koi feature nhi hota h isliye multer ka use krte hai.
+	req.body ka access express se mil jata h but file ka access nhi milta hai isliye multer ka use krke
+	file ko bhi access kr lete hai(req.files).
+23.	jab api define kr rhe h to ye btana hota h ki api hai aur uska kya version h isliye routes m "/api/v1"
+	krk likhte hai.
+24.		
+Note: kisi bhi function m kon kon se option h usko dekhne k liye ctrl+space krne p show hota h.

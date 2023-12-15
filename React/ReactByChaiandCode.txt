@@ -15,3 +15,54 @@
 14.	window object hum react m use kr lete h directly kyuki ye client side render hota h.
 15.	ager koi file ui s related tags return nhi kr rhi h to usko .js se save krna chahiye na ki .jsx s.
 16.	jab bhot saare components ho to us case m index.js file k through un components ko export krna chahiye.
+17.	Context Api ka use krne k liye hume createContext method ka use krna padta h jo React s milta h. isse
+	provider milta h jisko hum top level p rakhte h aur jis bhi component m iska scope chahiye usko iske
+	ander wrap kr dete h.
+18.	Tailwind k saath dark mode lihgt mode ka project banane k liye tailwind.config.js file m ek property
+	add krni hoti h (darkMode: "class").
+19.	Context aur useContext dono bar bar import na krna pade uske liye hum custom hook m usko use krk
+	har jagah custom hook ka use kr skte h.
+20.	Functionality waali chize context file m nhi krk bas us naam ka function bna dete h aur same usi naam
+	ka function main file m bna kr usko pass kr dete h provider ki value props mai.
+21.	() => {} isme return use krna padega jbki () => () isme return nhi likhna hota h kyuki ye auto-return
+	hota h.
+22.	redux aur react-redux do alag alag library h. redux core library h aur react-redux uski implementation
+	h jo wiring krne ka kaam krti h react aur redux ki.
+23.	RTK(Redux toolkit) ko implement krne k liye steps:
+	1.	store banate h. har application ka single store hote h jisko bolte h single source of truth.
+		configureStore s store create krte h jisme object pass krte h jisme sabhi reducer ko add krte hai
+	2.	Slice file bnate h fir usme Slice bnate h createSlice ki help s jo object leta h jisme 3 property
+		hoti h name, initialState, reducers. reducers ek object hota h jisme methods mention krte hai
+		jisme state aur action parameter available hote h.
+	3.	fir sabhi reducers ko export krte h jo Slice object k actions m milta h 
+	4.	fir sabhi reducer ka main source reducer export krte h jo Slice object k reducer m milta hai.
+	5.	Provider component m root component ko wrap kr dete h aur usme store prop m store pass krte h.	
+	6.	fir jis component s data bhejna hota h store m usme useDispatch method s dispatch krte h us
+		reducer ko jiski requirement ho
+	7.	fir jis component m value leni hoti h usme useSelector method ka use krte h jisme state mil
+		jata h
+	
+Mega Project Learning:--
+-------------------------------------------
+1. .env file k variable ko humesa proces.env.variableName s nhi access kr skte h balki ye alag alag
+	project m alag alag tarike s access krte h.
+	create-react-app m variable k naam m REACT_APP_ hona chahiye aur isko proces.env.REACT_APP_variableName
+	saare access kr skte h.
+	Vite m variable k naam m VITE_ use krte h aur isko import.meta.env.VITE_variableName s access krte h
+	
+2.	production ready projects m env variable ko access krne k liye ek alag config bna kr wha s access
+	krte h jisme hum ye make sure krte h ki env variable s jo value aa rhi h wo string h.
+
+3.	Services(class) bnate h jisse ki aaj appwrite use kr rhe h kal firebase use kr rhe usse koi fark na
+	pade codebase m.
+4.	appwrite m Query tabhi use kr skte h jab index set ho.
+5.	forwardRef hook k use ka example jab ek input component bnate h aur us input component ko kisi 
+	form waale component m sabhi input k liye use krenge us case m forwardRef hook use krte h.
+6.	useEffect m jab kisi function call ko optimize krna ho to us function call ko kisi variable mai
+	store krke useEffect k return k callback m unsubscribe method call krna hota hai.
+	useEffect(() => {
+        const subscription = watch();
+        return () => {
+            subscription.unsubscribe();
+        }
+    }, []);
