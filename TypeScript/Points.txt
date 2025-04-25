@@ -1,0 +1,425 @@
+Typescript is javascript with syntax for types.
+
+Why or benefits:-
+1. Avoid bugs in development
+2. Increase development speed
+3. Addition features: enum, interfaces, property modifiers
+
+can we run ts in production? : Well, technically we can run ts using ts-node pkg but not recommended.
+
+npm install -g typescript
+
+types: string, number, boolean, array(number[], string[], Array<number>(Genric) )
+
+Type alias: to make custom type and it is convention that first letter of variable should be capital letter
+
+type ID = number | string; (ID should be either number or string)
+
+const userId: ID = '112'
+
+type User = {
+    name: string,
+    age: number,
+    address?: string
+}; 
+
+?: used for making optional property in Obj.
+
+we can also define the function type that means type of return value of function and bydefault value is void
+
+function sum(num1: number, num2: number ): number {
+	return num1 + num2;
+}
+
+
+Interfaces:- it is convention that first letter of interface should be capital letter.
+
+interface Transaction {
+    payerAccountNumber: number;
+    payeeAccountNumber: number;
+}
+
+interface BankAccount {
+    accountNumber: number;
+    accountHolder: string;
+    balance: number;
+    isActive: boolean;
+    transactions: Transaction[];
+}
+
+const transaction1: Transaction = {
+    payerAccountNumber: 123,
+    payeeAccountNumber: 455
+};
+
+const transaction2: Transaction = {
+    payerAccountNumber: 123,
+    payeeAccountNumber: 456
+};
+
+const bankAccount: BankAccount = {
+    accountNumber: 123,
+    accountHolder: 'John Doe',
+    balance: 4000,
+    isActive: true,
+    transactions: [transaction1, transaction2]
+}
+
+Extends:-
+
+interface Book {
+    name: string;
+    price: number;
+}
+
+interface EBook extends Book {
+    // name: string;
+    // price: number;
+    fileSize: number;
+    format: string;
+}
+
+interface AudioBook extends EBook {
+    // name: string;
+    // price: number;
+    // fileSize: number;
+    // format: string;
+    duration: number;
+}
+
+const book: AudioBook = {
+    name: 'Atomic Habit',
+    price: 1200,
+    fileSize: 300,
+    format: 'pdf',
+    duration: 5
+};
+
+Interfaces merging:
+interface Book {
+    name: string;
+    price: number;
+};
+
+interface Book {
+    size: number
+};
+
+const book: Book = {
+    name: 'Atomic Habits',
+    price: 1200,
+    size: 300
+};
+
+
+Unions: 
+
+type ID = number | string;
+
+// Narrowing
+function printId(id: ID) {
+    if(typeof id === 'string') {
+        console.log(id.toUpperCase());        
+    } else {
+        console.log(id);        
+    }
+}
+
+printId("12");
+
+In Below example, TS checks the code and according to that it sets the return type of function is either string or array of number. It is also called infer.
+function getFirstThree(x: string | number[]) {
+    return x.slice(0, 3);
+}
+
+console.log(getFirstThree('Himanshu')); // Him
+console.log(getFirstThree([1,2,3,4,5])); // [1,2,3]
+
+
+Generics:- write the code in such a way where that code should work for all the types.
+
+function logAnything<T> (arg: T) : T {
+    console.log(arg);    
+    return arg;
+}
+
+logAnything([1,2,3]);
+
+
+interface HasAge {
+    age: number;
+};
+
+// function getOldest(people: HasAge[]) {
+//     return people.sort((a, b) => b.age - a.age)[0];
+// }
+
+const people: HasAge[] = [{age: 12}, {age: 15}, {age: 18}];
+
+interface Player  { 
+    name: string;
+    age: number;
+} 
+
+const players: Player[] = [{name: 'Goku', age: 35}, {name: 'Gohan', age: 25}, {name: 'Gotan', age: 15}];
+
+getOldest(players); // here we are not getting name property bcoz return type is HasAge.
+
+// Assertion
+// const person = getOldest(players) as Player;
+
+// Generic Sol
+function getOldest<T extends HasAge>(people: T[]): T {
+    return people.sort((a,b) => b.age - a.age)[0];
+}
+
+getOldest(players); // here we are getting name, age property 
+
+
+
+interface IPost {
+    title: string;
+    id: number;
+    description: string;
+}
+
+interface IUser {
+    id: number;
+    name: string;
+    age: number;
+}
+
+// const fetchPostData = async (path: string) : Promise<IPost[]> => {
+//     const response = await fetch(`https://example.com${path}`);
+//     return response.json();
+// }
+
+// const fetchUserData = async (path: string) : Promise<IUser[]> => {
+//     const response = await fetch(`https://example.com${path}`);
+//     return response.json();
+// }
+
+// (async ()=> {
+//     const posts = await fetchPostData('/posts');
+//     const users = await fetchUserData('/users');
+// })();
+
+const fetchData = async <ResultType>(path: string): Promise<ResultType> => {
+    const response = await fetch(`https://example.com${path}`);
+    return response.json();
+}
+
+(async ()=> {
+    const posts = await fetchData<IPost[]>('/posts');
+    const users = await fetchData<IUser[]>('/users');
+    
+})();
+
+
+Structural typing or duck typing:- when two objects have same properties and methods then TS understand both object have same type.
+
+interface ICredential {
+    username: string;
+    password: string;
+    isAdmin?: boolean;
+}
+
+function login(credentials: ICredential): boolean {
+    console.log(credentials);
+    return true;
+}
+
+
+const user: ICredential = {
+    username: 'codersgyan',
+    password: 'secret',
+    isAdmin: true
+}
+
+login(user);
+
+Note: In TS, hoisting is not applicable.
+
+How to write interface for methods:-
+interface IAuth {
+    username: string;
+    password: string;
+    login(username: string, password: string): boolean;
+};
+
+const auth: IAuth = {
+    username: 'codergyan',
+    password: 'secret',
+    login(username: string, password: string) {
+        return true;
+    }
+}
+
+commands:
+tsc --help 
+tsc --init ==> for creating bydefault tsconfig.json file. in tsconfig.json file, outDir is responsible for where compiled js file will created and 
+		rootDir is responsible for which files complied under a specific folder. 
+tsc --watch or tsc -w ==> for compiling multiple ts file together, it will work after creating tsconfig file.
+
+
+Note:- In TS, when we are trying to use const for variable it shows type of that variable is that value because it is constant and we can't reassign value to it.
+
+Tuple type:
+
+let role: [string, string, number, number, boolean?] = ['manager', 'admin', 1 , 4];
+role.push(true);
+role[1] = 12; // error can't assign the value
+
+Enum: - 
+
+enum Role {
+    admin, manager, read_only_user
+}
+
+console.log(Role); // {'0': 'admin','1': 'manager','2': 'read_only_user', admin: 0, manager: 1, read_only_user: 2}
+console.log(Role.manager); // 1
+console.log(Role[2]); // read_only_user
+
+
+Literal Type:- Apply Values rather than apply types to a variable or parameter.
+
+let Data: "abc" | 123 = "abc";
+
+Type Alias: Define Type like a variable and reuse it.
+
+1. Type Alias with variable
+2. Type Alias with function params
+
+unknown type:
+
+Difference between unknown type and any type
+
+below code does not show error because we are trying to assign any type to string type
+let data: any;
+data = 10;
+data = "Goku";
+
+let item: string;
+item = data;
+
+below code show error because we are trying to assign unknown type to string type
+let data: unknown;
+data = 10;
+data = "Goku";
+
+let item: string;
+item = data;
+
+solution of above example
+let data: unknown;
+data = 10;
+data = "Goku";
+
+let item: string;
+
+if(typeof data === "string") {
+    item = data;
+}
+
+never type: when a function don't return any value then that function type is never.
+
+function apiError(msg: string, code: number):never {
+    throw { message: msg, errorCode: code }
+}
+
+console.log(apiError("Server side error", 500));
+
+Note: when function type is void it will return undefined. but we can't assign the undefined type of a function because it will show error.
+
+for generating tsconfig file: tsc --init
+for compiling multiple ts file together, it will work after creating tsconfig file: tsc --watch or tsc -w
+
+For excluding file and folder from compilation we have to add exclude value in tsconfig.json
+"exclude": [
+    "student.ts",// file
+    "inner", // folder
+    "src/app.ts",// specific file under the src folder
+    "*/test.ts"  // specific file under the any folder
+]
+
+For including file and folder from compilation we have to add include value in tsconfig.json 
+
+"include": [
+    "student.ts",// file
+    "inner", // folder
+    "src/app.ts",// specific file under the src folder
+    "*/test.ts"  // specific file under the any folder
+]
+
+Public and private access modifiers:- public means that we can access property and methods outside of the class and private means we can't access it from outside of the class. 
+By default it is public but we can make private property and method using private keyword.
+
+// Public access modifier
+class User {
+    name = "";
+    
+    setName(name: string) {
+        this.name = name;
+    }
+
+    displayName() {
+        console.log(this.name);        
+    }
+
+    displayNameLength() {
+        console.log(this.name.length);
+    }
+}
+
+const u1 = new User;
+u1.setName("Goku");
+u1.name = "Gohan";
+u1.displayName(); // Gohan
+u1.displayNameLength(); // 4
+
+// Private access modifier
+class User {
+    private name = "";
+    
+    setName(name: string) {
+        this.name = name;
+    }
+
+    displayName() {
+        console.log(this.name);     
+	this.displayNameLength();   
+    }
+
+    private displayNameLength() {
+        console.log(this.name.length);
+    }
+}
+
+const u1 = new User;
+u1.setName("Goku");
+u1.name = "Gohan"; // it is showing error
+u1.displayName(); // Gohan
+u1.displayNameLength(); // it is showing error
+
+
+ShortHand Initialization:-
+class Users {
+    constructor(public name, public age ){} // Shorthand initialization
+    displayVal() {
+        console.log(this.name, this.age);        
+    }
+}
+
+const u1 = new Users("Goku", 25);
+u1.displayVal(); // Goku 25
+
+
+readonly VS private:-
+
+class User {
+    readonly name = "Goku";
+}
+
+const u1 = new User();
+u1.name = "Gohan"; // It is showing error because we are trying to assgin value to a readonly property
+console.log(u1.name); // Goku.  We can't modify the readonly property only we can read that.
